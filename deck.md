@@ -89,6 +89,8 @@ sum of two numbers in `server.js` file which:
 
 - Exposes a GraphQL `POST /graphql` route
 - Listens on port 3000
+- Has schema which includes an `add` function that returns sum of two numbers
+- Has a resolver for the add function that returns the sum
 - Responds with the JSON object if add function supplied with parameters (x:5, y:3)
 
 ```json
