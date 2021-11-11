@@ -1,0 +1,32 @@
+{
+  "name": "the-graphql-workshop",
+  "private": true,
+  "workspaces": [
+    "src/*"
+  ],
+  "version": "1.0.0",
+  "license": "CC-BY-SA-4.0",
+  "author": "Sameer Srivastava <sameer.srivastava@nearform.com>",
+  "scripts": {
+    "start": "nf-present deck.md --css=./styles.css --out=index.html --watch",
+    "lint": "eslint .",
+    "test": "tap"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-plugin-sql": "^2.0.0",
+    "prettier": "^2.4.1",
+    "tap": "^15.0.10"
+  },
+  "tap": {
+    "node-arg": [
+      "--no-warnings"
+    ]
+  },
+  "dependencies": {
+    "@graphql-tools/schema": "^7.1.5",
+    "@nearform/nf-present": "^1.1.0",
+    "fastify": "^3.18.1",
+    "mercurius": "^8.9.0"
+  }
+}
