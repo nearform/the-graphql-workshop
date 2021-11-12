@@ -3,7 +3,7 @@
 ## Requirements
 
 - Node LTS
-- npm >=7 - you can install it with [`npm install -g npm@latest`](https://docs.npmjs.com/try-the-latest-stable-version-of-npm)
+- npm >=7
 
 ## Setup
 
