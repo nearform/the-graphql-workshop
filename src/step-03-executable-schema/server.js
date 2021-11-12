@@ -1,8 +1,6 @@
-'use strict'
-
-const Fastify = require('fastify')
-const mercurius = require('mercurius')
-const { makeExecutableSchema } = require('@graphql-tools/schema')
+import Fastify from 'fastify'
+import mercurius from 'mercurius'
+import { makeExecutableSchema } from '@graphql-tools/schema'
 
 const app = Fastify()
 

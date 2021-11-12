@@ -1,7 +1,5 @@
-'use strict'
-
-const Fastify = require('fastify')
-const mercurius = require('mercurius')
+import Fastify from 'fastify'
+import mercurius from 'mercurius'
 
 const app = Fastify()
 
