@@ -15,7 +15,7 @@ class: branded
 class: branded
 
 # Pre-requisites
-- This workshop requires an understanding of the Fastify framework. Please go through the fastify workshop first
+- This workshop requires an understanding of the Fastify framework. Please go through the fastify workshop first.
 
 ---
 

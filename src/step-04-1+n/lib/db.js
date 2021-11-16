@@ -11,7 +11,9 @@ export async function ownersByName(db, names) {
     SQL`
       SELECT o.name
       FROM owners o
-      INNER JOIN dogs d ON d.owner = o.id AND d.name = ANY(${names})
+      INNER JOIN dogs d
+        ON d.owner = o.id
+        AND d.name = ANY(${names})
     `
   )
 
