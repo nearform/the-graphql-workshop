@@ -1,5 +1,6 @@
 {
-  "extends": "eslint:recommended",
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2020
@@ -9,6 +10,6 @@
     "node": true
   },
   "rules": {
-    "semi": ["error", "never"]
+    "prettier/prettier": "error"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "loaders",
+  "name": "gateway",
   "type": "module",
   "scripts": {
     "start": "node server.js"

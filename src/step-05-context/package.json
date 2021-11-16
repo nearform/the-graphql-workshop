@@ -1,5 +1,5 @@
 {
-  "name": "loaders",
+  "name": "context",
   "type": "module",
   "scripts": {
     "start": "node server.js"

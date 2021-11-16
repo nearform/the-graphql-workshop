@@ -9,12 +9,16 @@
   "author": "Sameer Srivastava <sameer.srivastava@nearform.com>",
   "scripts": {
     "start": "nf-present deck.md --css=./styles.css --out=index.html --watch",
+    "db:migrate": "postgrator",
     "lint": "eslint .",
-    "test": "tap"
+    "test": "tap --no-coverage --timeout=120"
   },
   "devDependencies": {
     "eslint": "^8.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.4.1",
+    "sinon": "^12.0.1",
     "tap": "^15.0.10"
   },
   "tap": {
@@ -25,7 +29,13 @@
   "dependencies": {
     "@graphql-tools/schema": "^7.1.5",
     "@nearform/nf-present": "^1.1.0",
+    "@nearform/sql": "^1.9.0",
+    "desm": "^1.2.0",
+    "env-schema": "^3.5.0",
     "fastify": "^3.18.1",
-    "mercurius": "^8.9.0"
+    "fastify-postgres": "^3.6.0",
+    "fluent-json-schema": "^3.0.1",
+    "mercurius": "^8.9.0",
+    "postgrator-cli": "^4.0.0"
   }
 }
