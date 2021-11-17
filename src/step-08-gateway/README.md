@@ -1,4 +1,4 @@
-# step-1
+# step-8
 
 ## Setup
 
@@ -18,7 +18,7 @@ Send the following graphQL queries:
 
 ```js
 { 
-  topPosts(count: 1): {
+  topPosts(count: 1) {
     title
   }
 }

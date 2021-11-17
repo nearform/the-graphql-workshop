@@ -11,9 +11,10 @@
     "start": "nf-present deck.md --css=./styles.css --out=index.html --watch",
     "db:migrate": "postgrator",
     "lint": "eslint .",
-    "test": "tap --no-coverage --timeout=120"
+    "test": "tap"
   },
   "devDependencies": {
+    "@istanbuljs/esm-loader-hook": "^0.1.2",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -23,7 +24,9 @@
   },
   "tap": {
     "node-arg": [
-      "--no-warnings"
+      "--no-warnings",
+      "--experimental-loader",
+      "@istanbuljs/esm-loader-hook"
     ]
   },
   "dependencies": {

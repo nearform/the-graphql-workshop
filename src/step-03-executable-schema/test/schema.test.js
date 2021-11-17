@@ -1,7 +1,8 @@
-import { test } from 'tap'
+import t from 'tap'
 import fastify from 'fastify'
 import mercurius from 'mercurius'
-import { schema, resolvers, loaders } from '../graphql.js'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { typeDefs, resolvers } from '../graphql.js'
 
 const buildServer = async () => {
   const server = fastify({
@@ -9,9 +10,7 @@ const buildServer = async () => {
   })
 
   server.register(mercurius, {
-    schema,
-    resolvers,
-    loaders
+    schema: makeExecutableSchema({ typeDefs, resolvers })
   })
 
   await server.ready()
@@ -19,17 +18,10 @@ const buildServer = async () => {
   return server
 }
 
-test('should return owner of the pet ', async t => {
+t.test('should return sum of two numbers', async t => {
   const server = await buildServer()
 
-  const query = `query {
-      pets {
-        name
-        owner {
-          name
-        }
-      }
-    }`
+  const query = `query { add(x: 3, y:5) }`
 
   const response = await server.inject({
     method: 'POST',
@@ -44,19 +36,6 @@ test('should return owner of the pet ', async t => {
 
   t.equal(errors, undefined)
   t.strictSame(data, {
-    pets: [
-      {
-        name: 'Max',
-        owner: {
-          name: 'Jennifer'
-        }
-      },
-      {
-        name: 'Charlie',
-        owner: {
-          name: 'Simon'
-        }
-      }
-    ]
+    add: 8
   })
 })

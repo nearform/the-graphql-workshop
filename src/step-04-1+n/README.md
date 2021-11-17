@@ -1,4 +1,4 @@
-# step-1
+# step-4
 
 ## Setup
 
@@ -12,7 +12,7 @@ Send a graphQL request with the following query:
 
 ```js
 { 
-  dogs {
+  pets {
     name
     owner {
       name

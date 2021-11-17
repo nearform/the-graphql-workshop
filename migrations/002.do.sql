@@ -1,2 +1,2 @@
-INSERT INTO owners (name) VALUES ('Jennifer'), ('Sarah');
-INSERT INTO dogs (name, owner) VALUES ('Max', 1), ('Charlie', 2);
+INSERT INTO owners (name) VALUES ('Jennifer'), ('Simon');
+INSERT INTO pets (name, owner) VALUES ('Max', 1), ('Charlie', 2);

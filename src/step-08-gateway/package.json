@@ -1,5 +1,5 @@
 {
-  "name": "gateway",
+  "name": "federation",
   "type": "module",
   "scripts": {
     "start": "node server.js"

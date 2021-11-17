@@ -1,4 +1,4 @@
-# step-1
+# step-3
 
 ## Setup
 

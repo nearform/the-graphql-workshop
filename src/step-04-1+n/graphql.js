@@ -1,33 +1,33 @@
-import { loadDogs, ownersByName } from './lib/db.js'
+import { loadPets, ownersByName } from './lib/db.js'
 
 const schema = `
   type Human {
     name: String!
   }
 
-  type Dog {
+  type Pet {
     name: String!
     owner: Human
   }
 
   type Query {
-    dogs: [Dog]
+    pets: [Pet]
   }
 `
 
 const resolvers = {
   Query: {
-    dogs(_, __, context) {
-      return loadDogs(context.app.pg)
+    pets(_, __, context) {
+      return loadPets(context.app.pg)
     }
   }
 }
 
 const loaders = {
-  Dog: {
+  Pet: {
     async owner(queries, context) {
-      const dogs = queries.map(({ obj }) => obj.name)
-      return ownersByName(context.app.pg, dogs)
+      const pets = queries.map(({ obj }) => obj.name)
+      return ownersByName(context.app.pg, pets)
     }
   }
 }

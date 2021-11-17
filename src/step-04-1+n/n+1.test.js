@@ -26,7 +26,7 @@ const buildServer = async () => {
   return server
 }
 
-t.test('should return owner of the dog ', async t => {
+t.test('should return owner of the pet ', async t => {
   const server = await buildServer()
 
   queryStub
@@ -37,7 +37,7 @@ t.test('should return owner of the dog ', async t => {
     .returns({ rows: [{ name: 'Jennifer' }, { name: 'Sarah' }] })
 
   const query = `query {
-      dogs {
+      pets {
         name
         owner {
           name
@@ -56,10 +56,10 @@ t.test('should return owner of the dog ', async t => {
 
   const { data, errors } = await response.json()
 
-  t.strictSame(errors, undefined)
-  t.same(queryStub.calledTwice, true)
+  t.equal(errors, undefined)
+  t.ok(queryStub.calledTwice)
   t.strictSame(data, {
-    dogs: [
+    pets: [
       {
         name: 'Max',
         owner: {

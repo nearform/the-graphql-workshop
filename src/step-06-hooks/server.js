@@ -2,24 +2,10 @@
 
 import Fastify from 'fastify'
 import mercurius from 'mercurius'
+import { schema, resolvers } from './graphql.js'
 
 async function start() {
   const app = Fastify()
-
-  const schema = `
-    type Query {
-      add(x: Int, y: Int): Int
-    }
-  `
-
-  const resolvers = {
-    Query: {
-      add: async (_, obj) => {
-        const { x, y } = obj
-        return x + y
-      }
-    }
-  }
 
   app.get('/', async function (req, reply) {
     const query = '{ add(x: 2, y: 2) }'

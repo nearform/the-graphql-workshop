@@ -1,20 +1,9 @@
 import Fastify from 'fastify'
 import mercurius from 'mercurius'
 import { makeExecutableSchema } from '@graphql-tools/schema'
+import { typeDefs, resolvers } from './graphql.js'
 
 const app = Fastify()
-
-const typeDefs = `
-  type Query {
-    add(x: Int, y: Int): Int
-  }
-`
-
-const resolvers = {
-  Query: {
-    add: async (_, { x, y }) => x + y
-  }
-}
 
 app.register(mercurius, {
   schema: makeExecutableSchema({ typeDefs, resolvers })

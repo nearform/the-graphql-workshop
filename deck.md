@@ -16,6 +16,7 @@ class: branded
 
 # Pre-requisites
 - This workshop requires an understanding of the Fastify framework. Please go through the fastify workshop first.
+Link => https://github.com/nearform/the-fastify-workshop
 
 ---
 

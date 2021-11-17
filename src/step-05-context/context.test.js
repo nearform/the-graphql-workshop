@@ -39,7 +39,7 @@ t.test('should retrieve correct value from context', async t => {
 
   const { data, errors } = await response.json()
 
-  t.strictSame(errors, undefined)
+  t.equal(errors, undefined)
   t.strictSame(data, {
     getUserByLocale: {
       name: 'Alice'
