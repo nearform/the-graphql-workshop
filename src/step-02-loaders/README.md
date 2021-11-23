@@ -12,7 +12,7 @@ Send a graphQL request with the following query:
 
 ```js
 {
-  dogs {
+  pets {
     owner {
       name
     }

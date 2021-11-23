@@ -1,4 +1,4 @@
-# step-3
+# step-7
 
 ## Setup
 
@@ -12,6 +12,8 @@ Send a graphQL request with the following query:
 
 ```js
 { 
-  add(x: 2, y: 2)
+  findUser(id: "5") {
+    name
+  }
 }
 ```

@@ -1,4 +1,4 @@
-# step-3
+# step-4
 
 ## Setup
 
@@ -12,6 +12,11 @@ Send a graphQL request with the following query:
 
 ```js
 { 
-  add(x: 2, y: 2)
+  pets {
+    name
+    owner {
+      name
+    }
+  }
 }
 ```

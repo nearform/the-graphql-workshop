@@ -1,5 +1,5 @@
 {
-  "name": "loaders",
+  "name": "one-plus-n-problem",
   "type": "module",
   "scripts": {
     "start": "node server.js"
