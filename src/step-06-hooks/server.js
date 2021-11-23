@@ -5,7 +5,11 @@ import mercurius from 'mercurius'
 import { schema, resolvers } from './graphql.js'
 
 async function start() {
-  const app = Fastify()
+  const app = Fastify({
+    logger: {
+      prettyPrint: true
+    }
+  })
 
   app.get('/', async function (req, reply) {
     const query = '{ add(x: 2, y: 2) }'

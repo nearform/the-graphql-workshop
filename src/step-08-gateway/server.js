@@ -9,7 +9,11 @@ async function start() {
 
   await createService(4002, service2.schema, service2.resolvers)
 
-  const gateway = Fastify()
+  const gateway = Fastify({
+    logger: {
+      prettyPrint: true
+    }
+  })
   gateway.register(mercurius, {
     graphiql: true,
     jit: 1,
