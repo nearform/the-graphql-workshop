@@ -38,7 +38,11 @@ img {
 
 ul,
 ol {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
+}
+
+.remark-code-line {
+  font-size: 0.8rem;
 }
 
 #slide-clinic-flame-img img,
