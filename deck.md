@@ -11,7 +11,7 @@ class: branded
 - Mercurius is a high-performance GraphQL adapter for the popular Fastify web framework.
 It has lots of features and plugins for building world class production-ready applications.  
 
-- It provides a Just-In-Time compiler via graphql-jit and an automatic loader integration to avoid 1 + N queries.  
+- It provides a Just-In-Time compiler via graphql-jit and an automatic loader integration to avoid N + 1 queries.  
 Mercurius also supports the Apollo Federation specification out of the box.
 
 ---
@@ -722,7 +722,7 @@ class: branded
 curl --request POST \
   --url http://localhost:3000/graphql \
   --header 'Content-Type: application/json' \
-  --data '{"query":"{ findUser { id: "5" } }"}'
+  --data '{"query":"{ findUser (id: \"5\") { id, name } }"}'
 ```
 
 ```json
