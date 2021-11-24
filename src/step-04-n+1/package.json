@@ -2,6 +2,7 @@
   "name": "one-plus-n-problem",
   "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "tap"
   }
 }
