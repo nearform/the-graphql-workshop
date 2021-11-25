@@ -9,7 +9,9 @@
   "author": "Sameer Srivastava <sameer.srivastava@nearform.com>",
   "scripts": {
     "start": "nf-present deck.md --css=./styles.css --out=index.html --watch",
+    "db:up": "docker-compose up -d",
     "db:migrate": "postgrator",
+    "db:down": "docker-compose down",
     "lint": "eslint .",
     "test": "tap"
   },
