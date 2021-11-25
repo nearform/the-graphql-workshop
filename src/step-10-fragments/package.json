@@ -1,0 +1,8 @@
+{
+  "name": "fragments",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "tap"
+  }
+}
