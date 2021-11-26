@@ -753,6 +753,330 @@ curl --request POST \
 ---
 
 
+# Step 8: Exercise 💻
+
+Create a graphql server using mercurius which:
+
+- Exposes a GraphQL `POST /graphql` route
+- Listens on port 4000
+- Run two graphql services on ports 4001 and 4002
+- Service 1 has a `User` type and a query which returns the user
+- Service 2 has a `Post` type and a query which returns the top posts by a `User`
+- Has a predefined list of users of the type `User` and posts of type `Post`
+
+---
+
+class: branded
+
+Query should return:  
+
+```json
+{
+  "data": {
+    "me": {
+      "name": "John",
+      "numberOfPosts": 2
+    }
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "topPosts": [
+      {
+        "title": "Post 1"
+      }
+    ]
+  }
+}
+```
+
+---
+
+class: branded
+
+# Step 8: Solution
+
+```js
+// server.js
+async function start() {
+  await createService(4001, service1.schema, service1.resolvers)
+
+  await createService(4002, service2.schema, service2.resolvers)
+
+  const gateway = Fastify({
+    logger: {
+      prettyPrint: true
+    }
+  })
+  gateway.register(mercurius, {
+    graphiql: true,
+    jit: 1,
+    gateway: {
+      services: [
+        {
+          name: 'user',
+          url: 'http://localhost:4001/graphql'
+        },
+        {
+          name: 'post',
+          url: 'http://localhost:4002/graphql'
+        }
+      ]
+    }
+  })
+
+  await gateway.listen(4000)
+}
+```
+
+```js
+// service.js
+service.register(mercurius, {
+  schema,
+  resolvers,
+  federationMetadata: true,
+  graphiql: true,
+  jit: 1
+})
+```
+
+---
+
+class: branded
+
+# Step 8: Trying it out
+
+### In terminal:
+```bash
+curl --request POST \
+  --url http://localhost:4000/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query":"{ me { name, numberOfPosts } }"}'
+```
+
+```bash
+curl --request POST \
+  --url http://localhost:4000/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query":"{ topPosts(count: 1) { title } }"}'
+```
+
+---
+
+class: branded
+
+##### Responses: 
+
+```json
+{
+  "data": {
+    "me": {
+      "name": "John",
+      "numberOfPosts": 2
+    }
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "topPosts": [
+      {
+        "title": "Post 1"
+      }
+    ]
+  }
+}
+```
+---
+
+# Step 9: Exercise 💻
+
+Create a graphql server using mercurius which:
+
+- Exposes a GraphQL `POST /graphql` route
+- Listens on port 3000
+- Has schema which includes an `add` function that returns sum of two numbers
+- Has a resolver for the add function that returns the sum
+- Returns result if add function supplied with dynamic parameters `($x: Int!, $y: Int!)`
+- inputs to add function should be passed as variables `{ "x": 3, "y": 5 }`
+
+---
+
+class: branded
+
+Query should return:  
+
+```json
+{
+  "data": {
+    "me": {
+      "name": "John",
+      "numberOfPosts": 2
+    }
+  }
+}
+```
+
+---
+
+class: branded
+
+# Step 9: Solution
+
+```js
+const schema = `
+  type Query {
+    add(x: Int, y: Int): Int
+  }
+`
+
+const resolvers = {
+  add: async ({ x, y }) => x + y
+}
+
+```
+
+---
+
+class: branded
+
+# Step 9: Trying it out
+
+### In terminal:
+```bash
+curl --request POST \
+  --url http://localhost:3000/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query":"query AddQuery ($x: Int!, $y: Int!) { add(x: $x, y: $y) }","variables":{"x":3,"y":5},"operationName":"AddQuery"}'
+```
+
+```json
+{
+  "data": {
+    "add": 8
+  }
+}
+```
+---
+
+
+# Step 10: Exercise 💻
+
+Create a graphql server using mercurius which:
+
+- Exposes a GraphQL `POST /graphql` route
+- Listens on port 3000
+- Has `User` type with `id`, `name`, `age` and `level` properties
+- Has two Query methods named `getNoviceUsers` and `getAdvancedUsers` which return type `User`
+- `getNoviceUsers` query returns users with level=novice
+- `getAdvancedUsers` query returns users with level=advanced
+- Query both methods using a fragment on the type `User`
+
+---
+
+class: branded
+
+Query should return:  
+
+```json
+{
+  "data": {
+    "getNoviceUsers": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "age": 32,
+        "level": "novice"
+      }
+    ],
+    "getAdvancedUsers": [
+      {
+        "id": 2,
+        "name": "Jane Doe",
+        "age": 28,
+        "level": "advanced"
+      }
+    ]
+  }
+}
+```
+
+---
+
+class: branded
+
+# Step 10: Solution
+
+```js
+const schema = `
+  type User {
+    id: Int!
+    name: String!
+    age: Int!
+    level: String!
+  }
+
+  type Query {
+    getNoviceUsers: [User]
+    getAdvancedUsers: [User]
+  }
+`
+
+const resolvers = {
+  Query: {
+    getNoviceUsers() {
+      return users.filter(user => user.level === 'novice')
+    },
+    getAdvancedUsers() {
+      return users.filter(user => user.level === 'advanced')
+    }
+  }
+}
+```
+
+---
+
+class: branded
+
+# Step 10: Trying it out
+
+### In terminal:
+```bash
+curl --request POST \
+  --url http://localhost:3000/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query":"{ getNoviceUsers { ...userFields } getAdvancedUsers { ...userFields } } fragment userFields on User { id  name age level }","variables":{"x":3,"y":5}}'
+```
+
+```json
+{
+  "data": {
+    "getNoviceUsers": [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "age": 32,
+        "level": "novice"
+      }
+    ],
+    "getAdvancedUsers": [
+      {
+        "id": 2,
+        "name": "Jane Doe",
+        "age": 28,
+        "level": "advanced"
+      }
+    ]
+  }
+}
+```
+---
+
 class: center, no-border, branded
 
 # 🏆 Write Tests 🏆

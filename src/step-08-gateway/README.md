@@ -12,7 +12,10 @@ Send the following graphQL queries:
 
 ```js
 { 
-  me
+  me {
+    name
+    numberOfPosts
+  }
 }
 ```
 
