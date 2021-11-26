@@ -861,7 +861,7 @@ curl --request POST \
 curl --request POST \
   --url http://localhost:4000/graphql \
   --header 'Content-Type: application/json' \
-  --data '{"query":"{ \n  topPosts(count: 1) {\n    title\n  }\n}"}'
+  --data '{"query":"{ topPosts(count: 1) { title } }"}'
 ```
 
 ---
@@ -952,7 +952,7 @@ class: branded
 curl --request POST \
   --url http://localhost:3000/graphql \
   --header 'Content-Type: application/json' \
-  --data '{"query":"query AddQuery ($x: Int!, $y: Int!) {\n    add(x: $x, y: $y)\n}","variables":{"x":3,"y":5},"operationName":"AddQuery"}'
+  --data '{"query":"query AddQuery ($x: Int!, $y: Int!) { add(x: $x, y: $y) }","variables":{"x":3,"y":5},"operationName":"AddQuery"}'
 ```
 
 ```json
@@ -1050,7 +1050,7 @@ class: branded
 curl --request POST \
   --url http://localhost:3000/graphql \
   --header 'Content-Type: application/json' \
-  --data '{"query":"{\n  getNoviceUsers {\n    ...userFields\n  }\n  getAdvancedUsers {\n    ...userFields\n  }\n}\n fragment userFields on User {\n    id\n    name\n    age\n    level\n}","variables":{"x":3,"y":5}}'
+  --data '{"query":"{ getNoviceUsers { ...userFields } getAdvancedUsers { ...userFields } } fragment userFields on User { id  name age level }","variables":{"x":3,"y":5}}'
 ```
 
 ```json
