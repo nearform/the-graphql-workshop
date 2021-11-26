@@ -864,6 +864,12 @@ curl --request POST \
   --data '{"query":"{ \n  topPosts(count: 1) {\n    title\n  }\n}"}'
 ```
 
+---
+
+class: branded
+
+##### Responses: 
+
 ```json
 {
   "data": {
