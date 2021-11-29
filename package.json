@@ -1,6 +1,7 @@
 {
   "name": "the-graphql-workshop",
   "private": true,
+  "type": "module",
   "workspaces": [
     "src/*"
   ],
@@ -10,7 +11,7 @@
   "scripts": {
     "start": "nf-present deck.md --css=./styles.css --out=index.html --watch",
     "db:up": "docker-compose up -d",
-    "db:migrate": "postgrator",
+    "db:migrate": "node scripts/migrate.js",
     "db:down": "docker-compose down",
     "lint": "eslint .",
     "test": "tap"
@@ -37,11 +38,12 @@
     "@nearform/sql": "^1.9.0",
     "desm": "^1.2.0",
     "env-schema": "^3.5.0",
+    "es-main": "^1.0.2",
     "fastify": "^3.18.1",
     "fastify-postgres": "^3.6.0",
     "fluent-json-schema": "^3.0.1",
     "mercurius": "^8.9.0",
     "pino-pretty": "^7.2.0",
-    "postgrator-cli": "^4.0.0"
+    "postgrator": "^5.0.0"
   }
 }

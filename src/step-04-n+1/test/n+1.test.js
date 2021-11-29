@@ -1,18 +1,15 @@
 import t from 'tap'
 import fastify from 'fastify'
 import mercurius from 'mercurius'
-import sinon from 'sinon'
 import { schema, resolvers, loaders } from '../graphql.js'
-
-const queryStub = sinon.stub()
-
-const dbClientMock = {
-  query: async () => queryStub()
-}
 
 const buildServer = async () => {
   const server = fastify({
     logger: false
+  })
+
+  server.register(import('fastify-postgres'), {
+    connectionString: 'postgres://postgres:postgres@localhost:5433/postgres'
   })
 
   server.register(mercurius, {
@@ -21,18 +18,11 @@ const buildServer = async () => {
     loaders
   })
 
-  server.decorate('pg', dbClientMock)
-
   return server
 }
 
 t.test('should return owner of the pet ', async t => {
   const server = await buildServer()
-
-  queryStub.onCall(0).returns({ rows: [{ name: 'Max' }, { name: 'Charlie' }] })
-  queryStub
-    .onCall(1)
-    .returns({ rows: [{ name: 'Jennifer' }, { name: 'Sarah' }] })
 
   const query = `query {
       pets {
@@ -55,7 +45,6 @@ t.test('should return owner of the pet ', async t => {
   const { data, errors } = await response.json()
 
   t.equal(errors, undefined)
-  t.ok(queryStub.calledTwice)
   t.strictSame(data, {
     pets: [
       {
@@ -67,7 +56,7 @@ t.test('should return owner of the pet ', async t => {
       {
         name: 'Charlie',
         owner: {
-          name: 'Sarah'
+          name: 'Simon'
         }
       }
     ]
