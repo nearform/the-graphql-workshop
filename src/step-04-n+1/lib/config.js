@@ -6,5 +6,5 @@ const schema = S.object().prop('PG_CONNECTION_STRING', S.string().required())
 
 export default envSchema({
   schema,
-  dotenv: { path: join(import.meta.url, '.env') }
+  dotenv: { path: join(import.meta.url, '../.env') }
 })

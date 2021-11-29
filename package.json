@@ -1,6 +1,7 @@
 {
   "name": "the-graphql-workshop",
   "private": true,
+  "type": "module",
   "workspaces": [
     "src/*"
   ],
@@ -41,6 +42,7 @@
     "fastify-postgres": "^3.6.0",
     "fluent-json-schema": "^3.0.1",
     "mercurius": "^8.9.0",
+    "pg": "^8.7.1",
     "pino-pretty": "^7.2.0",
     "postgrator-cli": "^4.0.0"
   }
