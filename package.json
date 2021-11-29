@@ -43,6 +43,7 @@
     "fastify-postgres": "^3.6.0",
     "fluent-json-schema": "^3.0.1",
     "mercurius": "^8.9.0",
+    "pg": "^8.7.1",
     "pino-pretty": "^7.2.0",
     "postgrator": "^5.0.0"
   }
