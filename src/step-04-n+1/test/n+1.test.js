@@ -2,6 +2,7 @@ import t from 'tap'
 import fastify from 'fastify'
 import mercurius from 'mercurius'
 import { schema, resolvers, loaders } from '../graphql.js'
+import config from '../lib/config.js'
 
 const buildServer = async () => {
   const server = fastify({
@@ -9,7 +10,7 @@ const buildServer = async () => {
   })
 
   server.register(import('fastify-postgres'), {
-    connectionString: 'postgres://postgres:postgres@localhost:5433/postgres'
+    connectionString: config.PG_CONNECTION_STRING
   })
 
   server.register(mercurius, {
