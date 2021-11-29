@@ -40,7 +40,7 @@ test('should use fragments and return users correctly', async t => {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: JSON.stringify({ query })
+    payload: JSON.stringify({ query })
   })
 
   t.equal(response.statusCode, 200)

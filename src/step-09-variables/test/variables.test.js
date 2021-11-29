@@ -25,7 +25,7 @@ test('should accept parameters as variables and return sum of two numbers', asyn
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: {
+    payload: {
       operationName: 'AddQuery',
       variables: { x: 3, y: 5 },
       query: `

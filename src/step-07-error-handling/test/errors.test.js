@@ -29,7 +29,7 @@ test('should throw error with proper message and code if user not found', async 
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: JSON.stringify({ query })
+    payload: JSON.stringify({ query })
   })
 
   t.equal(response.statusCode, 200)
@@ -68,7 +68,7 @@ test('should return user', async t => {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: JSON.stringify({ query })
+    payload: JSON.stringify({ query })
   })
 
   t.equal(response.statusCode, 200)

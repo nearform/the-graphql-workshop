@@ -37,19 +37,14 @@ const service2 = {
     },
     User: {
       posts: user => {
-        return Object.values(posts).filter(
-          p => p.authorId === user.id
-        )
+        return Object.values(posts).filter(p => p.authorId === user.id)
       },
       numberOfPosts: user => {
-        return Object.values(posts).filter(
-          p => p.authorId === user.id
-        ).length
+        return Object.values(posts).filter(p => p.authorId === user.id).length
       }
     },
     Query: {
-      topPosts: (root, { count }) =>
-        Object.values(posts).slice(0, count)
+      topPosts: (root, { count }) => Object.values(posts).slice(0, count)
     }
   }
 }

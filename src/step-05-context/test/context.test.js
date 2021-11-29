@@ -1,7 +1,7 @@
 import t from 'tap'
 import fastify from 'fastify'
 import mercurius from 'mercurius'
-import { schema, resolvers } from './graphql.js'
+import { schema, resolvers } from '../graphql.js'
 
 const buildServer = async () => {
   const server = fastify({
@@ -32,7 +32,7 @@ t.test('should retrieve correct value from context', async t => {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: JSON.stringify({ query })
+    payload: JSON.stringify({ query })
   })
 
   t.equal(response.statusCode, 200)

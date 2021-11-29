@@ -26,26 +26,23 @@ async function start() {
   await app.ready()
 
   app.graphql.addHook('preParsing', async function () {
-    console.log('preParsing called')
+    app.log.info('preParsing called')
   })
 
   app.graphql.addHook('preValidation', async function () {
-    console.log('preValidation called')
+    app.log.info('preValidation called')
   })
 
-  app.graphql.addHook(
-    'preExecution',
-    async function (schema, document) {
-      console.log('preExecution called')
-      return {
-        document,
-        errors: [new Error('foo')]
-      }
+  app.graphql.addHook('preExecution', async function (schema, document) {
+    app.log.info('preExecution called')
+    return {
+      document,
+      errors: [new Error('foo')]
     }
-  )
+  })
 
   app.graphql.addHook('onResolution', async function () {
-    console.log('onResolution called')
+    app.log.info('onResolution called')
   })
 
   app.listen(3000)
