@@ -38,7 +38,7 @@
     "@nearform/sql": "^1.9.0",
     "desm": "^1.2.0",
     "env-schema": "^3.5.0",
-    "fastify": "^3.18.1",
+    "fastify": "^3.24.1",
     "fastify-postgres": "^3.6.0",
     "fluent-json-schema": "^3.0.1",
     "mercurius": "^8.9.0",
