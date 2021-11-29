@@ -1,8 +1,8 @@
 import t from 'tap'
 import fastify from 'fastify'
 import mercurius from 'mercurius'
-import { schema, resolvers, loaders } from './graphql.js'
 import sinon from 'sinon'
+import { schema, resolvers, loaders } from '../graphql.js'
 
 const queryStub = sinon.stub()
 
@@ -29,9 +29,7 @@ const buildServer = async () => {
 t.test('should return owner of the pet ', async t => {
   const server = await buildServer()
 
-  queryStub
-    .onCall(0)
-    .returns({ rows: [{ name: 'Max' }, { name: 'Charlie' }] })
+  queryStub.onCall(0).returns({ rows: [{ name: 'Max' }, { name: 'Charlie' }] })
   queryStub
     .onCall(1)
     .returns({ rows: [{ name: 'Jennifer' }, { name: 'Sarah' }] })
@@ -49,7 +47,7 @@ t.test('should return owner of the pet ', async t => {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: JSON.stringify({ query })
+    payload: JSON.stringify({ query })
   })
 
   t.equal(response.statusCode, 200)

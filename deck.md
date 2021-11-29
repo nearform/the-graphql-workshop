@@ -9,19 +9,20 @@ class: branded
 # Introduction: Why Mercurius
 
 - Mercurius is a high-performance GraphQL adapter for the popular Fastify web framework.
-It has lots of features and plugins for building world class production-ready applications.  
+  It has lots of features and plugins for building world class production-ready applications.
 
 - It provides a Just-In-Time compiler via graphql-jit and an automatic loader integration to avoid N + 1 queries.  
-Mercurius also supports the Apollo Federation specification out of the box.
+  Mercurius also supports the Apollo Federation specification out of the box.
 
 ---
 
 class: branded
 
 # Pre-requisites
+
 - This workshop requires an understanding of the Fastify framework.  
-Please go through the fastify workshop first.  
-Link - https://github.com/nearform/the-fastify-workshop
+  Please go through the fastify workshop first.  
+  Link - https://github.com/nearform/the-fastify-workshop
 
 ---
 
@@ -191,7 +192,8 @@ Write a graphql query which:
 
 class: branded
 
-Query should return:  
+Query should return:
+
 ```json
 {
   "data": {
@@ -222,11 +224,14 @@ class: branded
 
 const app = Fastify()
 
-const pets = [{
-  name: 'Max'
-}, {
-  name: 'Charlie'
-}]
+const pets = [
+  {
+    name: 'Max'
+  },
+  {
+    name: 'Charlie'
+  }
+]
 
 const owners = {
   Max: {
@@ -260,7 +265,7 @@ class: branded
 ```js
 const resolvers = {
   Query: {
-    pets () {
+    pets() {
       return pets
     }
   }
@@ -268,7 +273,7 @@ const resolvers = {
 
 const loaders = {
   Pet: {
-    async owner (queries) {
+    async owner(queries) {
       return queries.map(({ obj }) => owners[obj.name])
     }
   }
@@ -290,6 +295,7 @@ class: branded
 # Step 2: Trying it out
 
 ### In Graphiql:
+
 You can navigate to graphql query editor on http://localhost:3000/graphiql
 
 <img style="width: 50%; text-align: center" src="assets/step-02.png">
@@ -315,6 +321,7 @@ Create a graphql server using mercurius which:
   }
 }
 ```
+
 ---
 
 class: branded
@@ -447,7 +454,6 @@ const loaders = {
     }
   }
 }
-
 ```
 
 ---
@@ -457,12 +463,12 @@ class: branded
 # Step 4: Trying it out
 
 ### In Graphiql:
+
 You can navigate to graphql query editor on http://localhost:3000/graphiql
 
 <img style="width: 50%; text-align: center" src="assets/step-02.png">
 
 ---
-
 
 class: branded
 
@@ -516,7 +522,6 @@ const resolvers = {
     }
   }
 }
-
 ```
 
 ---
@@ -526,6 +531,7 @@ class: branded
 # Step 5: Trying it out
 
 ### In terminal:
+
 ```bash
 curl --request POST \
   --url http://localhost:3000/graphql \
@@ -542,6 +548,7 @@ curl --request POST \
   }
 }
 ```
+
 ---
 
 # Step 6: Exercise 💻
@@ -562,7 +569,7 @@ Create a graphql server using mercurius which:
 
 class: branded
 
-Query should return:  
+Query should return:
 
 ```json
 {
@@ -576,6 +583,7 @@ Query should return:
   ]
 }
 ```
+
 ---
 
 class: branded
@@ -585,26 +593,22 @@ class: branded
 ```js
 // server.js
 
-  app.graphql.addHook('preParsing', async function () {
-    console.log('preParsing called')
-  })
+app.graphql.addHook('preParsing', async function () {
+  app.log.info('preParsing called')
+})
 
-  app.graphql.addHook('preValidation', async function () {
-    console.log('preValidation called')
-  })
+app.graphql.addHook('preValidation', async function () {
+  app.log.info('preValidation called')
+})
 
-  app.graphql.addHook(
-    'preExecution',
-    async function (schema, document) {
-      console.log('preExecution called')
-    }
-  )
+app.graphql.addHook('preExecution', async function (schema, document) {
+  app.log.info('preExecution called')
+})
 
-  app.graphql.addHook('onResolution', async function () {
-    console.log('onResolution called')
-  })
+app.graphql.addHook('onResolution', async function () {
+  app.log.info('onResolution called')
+})
 ```
-
 
 ---
 
@@ -613,6 +617,7 @@ class: branded
 # Step 6: Trying it out
 
 ### In terminal:
+
 ```bash
 curl --request POST \
   --url http://localhost:3000/graphql \
@@ -621,6 +626,7 @@ curl --request POST \
 ```
 
 Output:
+
 ```bash
 preParsing called
 preValidation called
@@ -640,6 +646,7 @@ onResolution called
   ]
 }
 ```
+
 ---
 
 # Step 7: Exercise 💻
@@ -650,7 +657,7 @@ Create a graphql server using mercurius which:
 - Listens on port 3000
 - Has `User` type with `name` and `id` property
 - Has a predefined list of users of the type `User`
-- Has a query called `findUser` which accepts an `id` and 
+- Has a query called `findUser` which accepts an `id` and
   - If the `id` matches then the corresponding user is returned
   - If the `id` does not match with any user then an error is thrown with the message 'Invalid User ID'
   - Also add a property `extensions` to the error object with the `code: USER_ID_INVALID` and `id: <query input>`
@@ -659,7 +666,7 @@ Create a graphql server using mercurius which:
 
 class: branded
 
-Query should return:  
+Query should return:
 
 ```json
 {
@@ -675,9 +682,7 @@ Query should return:
           "column": 3
         }
       ],
-      "path": [
-        "findUser"
-      ],
+      "path": ["findUser"],
       "extensions": {
         "code": "USER_ID_INVALID",
         "id": "5"
@@ -718,6 +723,7 @@ class: branded
 # Step 7: Trying it out
 
 ### In terminal:
+
 ```bash
 curl --request POST \
   --url http://localhost:3000/graphql \
@@ -739,9 +745,7 @@ curl --request POST \
           "column": 3
         }
       ],
-      "path": [
-        "findUser"
-      ],
+      "path": ["findUser"],
       "extensions": {
         "code": "USER_ID_INVALID",
         "id": "5"
@@ -750,8 +754,8 @@ curl --request POST \
   ]
 }
 ```
----
 
+---
 
 # Step 8: Exercise 💻
 
@@ -768,7 +772,7 @@ Create a graphql server using mercurius which:
 
 class: branded
 
-Query should return:  
+Query should return:
 
 ```json
 {
@@ -850,6 +854,7 @@ class: branded
 # Step 8: Trying it out
 
 ### In terminal:
+
 ```bash
 curl --request POST \
   --url http://localhost:4000/graphql \
@@ -868,7 +873,7 @@ curl --request POST \
 
 class: branded
 
-##### Responses: 
+##### Responses:
 
 ```json
 {
@@ -892,6 +897,7 @@ class: branded
   }
 }
 ```
+
 ---
 
 # Step 9: Exercise 💻
@@ -909,7 +915,7 @@ Create a graphql server using mercurius which:
 
 class: branded
 
-Query should return:  
+Query should return:
 
 ```json
 {
@@ -938,7 +944,6 @@ const schema = `
 const resolvers = {
   add: async ({ x, y }) => x + y
 }
-
 ```
 
 ---
@@ -948,6 +953,7 @@ class: branded
 # Step 9: Trying it out
 
 ### In terminal:
+
 ```bash
 curl --request POST \
   --url http://localhost:3000/graphql \
@@ -962,8 +968,8 @@ curl --request POST \
   }
 }
 ```
----
 
+---
 
 # Step 10: Exercise 💻
 
@@ -981,7 +987,7 @@ Create a graphql server using mercurius which:
 
 class: branded
 
-Query should return:  
+Query should return:
 
 ```json
 {
@@ -1046,6 +1052,7 @@ class: branded
 # Step 10: Trying it out
 
 ### In terminal:
+
 ```bash
 curl --request POST \
   --url http://localhost:3000/graphql \
@@ -1075,6 +1082,7 @@ curl --request POST \
   }
 }
 ```
+
 ---
 
 class: center, no-border, branded

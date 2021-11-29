@@ -27,7 +27,7 @@ test('should return sum of two numbers', async t => {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: JSON.stringify({ query })
+    payload: JSON.stringify({ query })
   })
 
   t.equal(response.statusCode, 200)

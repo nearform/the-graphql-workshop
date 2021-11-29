@@ -25,8 +25,7 @@ const service1 = {
       __resolveReference: user => {
         return users[user.id]
       },
-      friends: user =>
-        Object.values(users).filter(u => u.id !== user.id),
+      friends: user => Object.values(users).filter(u => u.id !== user.id),
       fullName: user => user.name + ' Doe'
     }
   }

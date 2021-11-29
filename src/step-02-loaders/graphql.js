@@ -42,7 +42,7 @@ const resolvers = {
 const loaders = {
   Pet: {
     async owner(queries) {
-      return queries.map(({ obj }) => owners[obj.name])
+      return queries.map(({ obj: pet }) => owners[pet.name])
     }
   }
 }

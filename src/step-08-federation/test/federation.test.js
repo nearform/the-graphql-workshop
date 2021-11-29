@@ -95,7 +95,7 @@ test('Runs in gateway mode with two services ', async t => {
       authorization: 'bearer supersecret'
     },
     url: '/graphql',
-    body: JSON.stringify({
+    payload: JSON.stringify({
       query,
       variables: {
         count: 1

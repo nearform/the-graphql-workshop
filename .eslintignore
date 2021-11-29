@@ -1,4 +1,2 @@
-coverage/*
-node_modules/*
-mocks/*
-scripts/*
+coverage/
+node_modules/

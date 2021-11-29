@@ -55,27 +55,21 @@ test('hooks', async t => {
     }
   )
 
-  server.graphql.addHook(
-    'preGatewayExecution',
-    async function (schema, document, context) {
-      t.fail('this should not be called')
-    }
-  )
+  server.graphql.addHook('preGatewayExecution', async function () {
+    t.fail('this should not be called')
+  })
 
-  server.graphql.addHook(
-    'onResolution',
-    async function (execution, context) {
-      t.type(execution, 'object')
-      t.type(context, 'object')
-      t.ok('onResolution called')
-    }
-  )
+  server.graphql.addHook('onResolution', async function (execution, context) {
+    t.type(execution, 'object')
+    t.type(context, 'object')
+    t.ok('onResolution called')
+  })
 
   const response = await server.inject({
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     url: '/graphql',
-    body: JSON.stringify({ query })
+    payload: JSON.stringify({ query })
   })
 
   const { data, errors } = await response.json()
