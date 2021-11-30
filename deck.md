@@ -603,6 +603,11 @@ app.graphql.addHook('preValidation', async function () {
 
 app.graphql.addHook('preExecution', async function (schema, document) {
   app.log.info('preExecution called')
+
+  return {
+    document,
+    errors: [new Error('foo')]
+  }
 })
 
 app.graphql.addHook('onResolution', async function () {
