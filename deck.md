@@ -925,10 +925,7 @@ Query should return:
 ```json
 {
   "data": {
-    "me": {
-      "name": "John",
-      "numberOfPosts": 2
-    }
+    "add": 8
   }
 }
 ```
