@@ -298,7 +298,7 @@ class: branded
 
 You can navigate to graphql query editor on http://localhost:3000/graphiql
 
-<img style="width: 50%; text-align: center" src="assets/step-02.png">
+<img style="width: 50%; text-align: center" src="assets/step-02.jpg">
 
 ---
 
@@ -466,7 +466,7 @@ class: branded
 
 You can navigate to graphql query editor on http://localhost:3000/graphiql
 
-<img style="width: 50%; text-align: center" src="assets/step-02.png">
+<img style="width: 50%; text-align: center" src="assets/step-02.jpg">
 
 ---
 
