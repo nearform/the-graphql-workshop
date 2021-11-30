@@ -33,7 +33,7 @@
     ]
   },
   "dependencies": {
-    "@graphql-tools/schema": "^7.1.5",
+    "@graphql-tools/schema": "^8.3.1",
     "@nearform/nf-present": "^2.0.0",
     "@nearform/sql": "^1.9.0",
     "desm": "^1.2.0",
