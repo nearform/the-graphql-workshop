@@ -13,7 +13,8 @@ app.register(mercurius, {
   resolvers,
   context: () => ({
     locale: 'en'
-  })
+  }),
+  graphiql: true
 })
 
 app.listen(3000)
