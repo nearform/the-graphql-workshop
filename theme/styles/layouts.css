@@ -1,0 +1,232 @@
+:root {
+  --slidev-theme-primary: #fff !important;
+  --slidev-slide-container-background: #2165e3;
+}
+
+.slidev-layout {
+  text-align: left !important;
+
+  h1 {
+    color: #fff;
+    font-weight: 900;
+    margin-bottom: 1em !important;
+  }
+
+  h1 + p {
+    @apply -mt-2 opacity-50 mb-4;
+  }
+
+  p + h2, ul + h2, table + h2 {
+    @apply mt-10;
+  }
+  
+  h1 {
+    @apply text-4xl mb-4 -ml-[0.05em];
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-base;
+  }
+
+  h6 {
+    @apply text-sm pt-1 uppercase tracking-widest font-500 -ml-[0.05em];
+  }
+
+  h6:not(.opacity-100) {
+    @apply opacity-40;
+  }
+}
+
+.slidev-layout.cover,
+.slidev-layout.intro {
+  @apply h-full grid;
+
+  h1 {
+    color: inherit;
+    @apply text-6xl leading-20;
+  }
+}
+
+.slidev-layout.fact {
+  @apply text-center grid h-full;
+  h1 {
+    @apply text-8xl font-700;
+  }
+  h1 + p {
+    @apply font-700 text-2xl;
+  }
+}
+
+.slidev-layout.statement {
+  @apply text-center grid h-full;
+
+  h1 {
+    @apply text-6xl font-700;
+  }
+}
+
+.slidev-layout.quote {
+  @apply grid h-full;
+
+  h1 + p {
+    @apply mt-2;
+  }
+}
+
+.slidev-layout.section {
+  h1 {
+    @apply text-6xl font-500 leading-20;
+  }
+}
+
+
+.grid-cols-2 {
+  grid-template-columns: 6fr 4fr !important;
+}
+
+.dark #slide-content {
+  --tw-bg-opacity: 1;
+  background-color: var(--slidev-slide-container-background);
+  --tw-text-opacity: 1;
+  color: #fff;
+}
+
+#slide-content p {
+  line-height: 1.5em !important;
+  font-size: 1.0em !important;
+  color:  #fff !important;
+  opacity: 1.0 !important;
+}
+
+li {
+  font-size: 0.9em !important;
+  line-height: 1.8em !important;
+  padding-bottom: 0.2em !important;
+}
+li li {
+  font-size: 0.9em !important;
+  line-height: 1.8em !important;
+  padding-bottom: 0.2em !important;
+}
+/*:not(ol) > ul > li {
+  font-size: 1.5em;
+}
+
+ol > li, ul > li {
+  font-size: 1.5em !important;
+}
+
+ol > li > ul > li {
+  font-size: 1em !important;
+}
+*/
+:not(pre) > code {
+  background: #fb7a9c !important;
+}
+
+:not(pre) > code:before, :not(pre) > code:after {
+  content: '' !important;
+}
+
+strong {
+  color: #fb7a9c;
+  font-weight: 900 !important;
+}
+
+::marker {
+  font-size:  1em;
+}
+
+.logo {
+  width: 200px !important;
+}
+
+.logo-bottom {
+  width: 200px !important;
+  position: absolute;
+  bottom: 3em;
+}
+
+.logo + h1 {
+  font-size:  3em !important;
+  margin-top: 2em;
+  line-height: 3.5rem !important;
+}
+
+.authors {
+  margin-top: 5em;
+}
+.authors > div {
+  line-height: 1em;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+  font-size: 1.2em !important;  
+  line-height: 1.2em;
+}
+
+
+.copyright {
+  position: absolute;
+  font-size: 0.9em;
+  bottom: 2em;
+}
+
+.middle-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 90%;
+}
+
+.big h2 {
+  font-size:  3em !important;
+  line-height: 1.1em !important;
+}
+
+.cover-bg {
+  left: 0;
+  right:  0;
+  top:  0;
+  width:  100% !important;
+  z-index:  -1;
+  position: absolute;
+  display:  block;
+}
+
+.huge {
+  font-size: 4em !important;
+  line-height: 1em !important;
+}
+
+.dot {
+  width: 100%;
+}
+.dot h3 {
+  font-size: 1em !important;
+  font-weight: 900 !important;
+}
+.dot .desc {
+  font-size: 0.9em !important;
+}
+
+.two-columns {
+  grid-template-columns: 50% 50%;
+  display:  grid;
+}
+
+.one-big-one-small-column {
+  grid-template-columns: 60% 40%;
+  display:  grid;
+}

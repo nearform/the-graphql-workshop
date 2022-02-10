@@ -9,7 +9,9 @@
   "license": "CC-BY-SA-4.0",
   "author": "Sameer Srivastava <sameer.srivastava@nearform.com>",
   "scripts": {
-    "start": "nf-present deck.md --css=./styles.css --out=index.html --watch",
+    "build": "slidev build",
+    "start": "slidev --open",
+    "export": "slidev export",
     "db:up": "docker-compose up -d",
     "db:migrate": "postgrator",
     "db:down": "docker-compose down",
@@ -34,8 +36,10 @@
   },
   "dependencies": {
     "@graphql-tools/schema": "^8.3.1",
-    "@nearform/nf-present": "^2.0.0",
     "@nearform/sql": "^1.9.0",
+    "@slidev/cli": "^0.27.20",
+    "@slidev/theme-default": "*",
+    "@vueuse/shared": "^7.6.1",
     "desm": "^1.2.0",
     "env-schema": "^3.5.2",
     "fastify": "^3.27.1",

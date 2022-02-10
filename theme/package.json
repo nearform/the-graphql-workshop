@@ -1,0 +1,36 @@
+{
+  "name": "@slidev/nearform",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=14.0.0",
+    "slidev": ">=0.19.3"
+  },
+  "description": "NearForm theme for Slidev",
+  "keywords": [
+    "slidev-theme",
+    "slidev"
+  ],
+  "license": "MIT",
+  "slidev": {
+    "colorSchema": "both",
+    "highlighter": "all",
+    "defaults": {
+      "fonts": {
+        "mono": "PT Mono",
+        "sans": "Poppins",
+        "serif": "Poppins"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nearform/slidev-theme"
+  },
+  "bugs": "https://github.com/nearform/slidev-theme",
+  "dependencies": {
+    "@slidev/types": "^0.22.7",
+    "codemirror-theme-vars": "^0.1.1",
+    "prism-theme-vars": "^0.2.2",
+    "theme-vitesse": "^0.1.12"
+  }
+}
