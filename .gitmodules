@@ -1,3 +1,3 @@
 [submodule "theme"]
 	path = theme
-	url = https://github.com/nearform/nf-theme.git
+	url = https://github.com/nearform/slidev-theme.git
