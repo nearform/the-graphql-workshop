@@ -1,32 +1,48 @@
-class: center, title-page
+---
+theme: slidev-theme-nearform
+layout: image-right
+highlighter: shiki
+lineNumbers: false
+---
+
+<img class=logo src="/images/nearform.svg">
 
 # The GraphQL Workshop
 
----
+<div class="copyright">
 
-class: branded
+© Copyright 2019-2022 NearForm Ltd. All Rights Reserved.
+
+</div>
+
+---
 
 # Introduction: Why Mercurius
 
-- Mercurius is a high-performance GraphQL adapter for the popular Fastify web framework.
-  It has lots of features and plugins for building world class production-ready applications.
+<div class="flex-row">
 
-- It provides a Just-In-Time compiler via graphql-jit and an automatic loader integration to avoid N + 1 queries.  
+- Mercurius is a **high-performance** GraphQL adapter for the popular Fastify web framework.
+  It has lots of features and plugins for building world class production-ready applications.
+- It provides a Just-In-Time compiler via graphql-jit and an **automatic loader integration** to avoid N + 1 queries.  
   Mercurius also supports the Apollo Federation specification out of the box.
+
+</div>
 
 ---
 
-class: branded
-
 # Pre-requisites
+
+<div class="flex-row">
 
 - This workshop requires an understanding of the Fastify framework.  
   Please go through the fastify workshop first.  
   Link - https://github.com/nearform/the-fastify-workshop
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Core features
 
@@ -40,7 +56,11 @@ class: branded
 - Batched query support
 - Customisable persisted queries
 
+</div>
+
 ---
+
+<div class="middle-flex">
 
 # Getting setup
 
@@ -56,32 +76,30 @@ git clone https://github.com/nearform/the-graphql-workshop
 npm ci
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Workshop structure
 
 - This workshop is made of multiple, incremental modules
-
 - Each module builds on top of the previous one
-
 - At each step you are asked to add features and solve problems
-
 - You will find the solution to each step in the `src/step-{n}-{name}` folder
-
 - The 🏆 icon indicates bonus features
-
 - The 💡 icon indicates hints
+
+</div>
 
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Running the modules
 
 - `cd src/step-{n}-{name}`
-
 - Check out README.md
 
 #### Example
@@ -92,9 +110,11 @@ cd src/step-01-basic
 npm run start
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 1: Exercise 💻
 
@@ -115,15 +135,15 @@ sum of two numbers which:
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="flex-row flex-row">
 
 # Step 1: Solution
 
 ```js
-// server.js
-
 const app = Fastify()
 
 const schema = `
@@ -134,10 +154,7 @@ const schema = `
 
 const resolvers = {
   Query: {
-    add: async (_, obj) => {
-      const { x, y } = obj
-      return x + y
-    }
+    add: async (_, { x, y }) => x + y
   }
 }
 
@@ -150,9 +167,11 @@ app.register(mercurius, {
 app.listen(3000)
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 1: Trying it out
 
@@ -173,9 +192,11 @@ curl --request POST \
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 2: Exercise 💻
 
@@ -188,9 +209,11 @@ Write a graphql query which:
 - Allows to query all pets and it's owners by using graphql loaders
 - Responds with the JSON object
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 Query should return:
 
@@ -213,15 +236,16 @@ Query should return:
 }
 ```
 
----
+</div>
 
-class: branded
+---
 
 # Step 2: Solution
 
+<div class="two-columns gap-5">
+
 ```js
 // server.js
-
 const app = Fastify()
 
 const pets = [
@@ -241,7 +265,10 @@ const owners = {
     name: 'Simon'
   }
 }
+```
 
+
+```js
 const schema = `
   type Human {
     name: String!
@@ -256,13 +283,7 @@ const schema = `
     pets: [Pet]
   }
 `
-```
 
----
-
-class: branded
-
-```js
 const resolvers = {
   Query: {
     pets() {
@@ -270,7 +291,15 @@ const resolvers = {
     }
   }
 }
+```
 
+</div>
+
+---
+
+<div class="middle-flex">
+
+```js
 const loaders = {
   Pet: {
     async owner(queries) {
@@ -288,9 +317,11 @@ app.register(mercurius, {
 app.listen(3000)
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 2: Trying it out
 
@@ -298,18 +329,19 @@ class: branded
 
 You can navigate to graphql query editor on http://localhost:3000/graphiql
 
-<img style="width: 50%; text-align: center" src="assets/step-02.jpg">
+<img style="width: 50%; text-align: center" src="/images/step-02.jpg">
+
+</div>
 
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 3: Exercise 💻
 
 Create a graphql server using mercurius which:
 
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
+- Exposes a GraphQL `POST /graphql` route that listens on port 3000
 - Creates a GraphQL query to add two numbers and write resolvers
 - Creates an executable schema using typeDefs and resolves and supplies it to mercurius
 - Responds with the JSON object if add function is supplied with parameters (x:5, y:3)
@@ -322,14 +354,15 @@ Create a graphql server using mercurius which:
 }
 ```
 
----
+</div>
 
-class: branded
+---
 
 # Step 3: Solution
 
+<div class="one-big-one-small-column gap-5">
+
 ```js
-// server.js
 'use strict'
 
 const Fastify = require('fastify')
@@ -349,17 +382,23 @@ const resolvers = {
     add: async (_, { x, y }) => x + y
   }
 }
+```
 
+```js
 app.register(mercurius, {
-  schema: makeExecutableSchema({ typeDefs, resolvers })
+  schema: makeExecutableSchema({
+    typeDefs, resolvers
+  })
 })
 
 app.listen(3000)
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 3: Trying it out
 
@@ -380,9 +419,11 @@ curl --request POST \
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 4: Exercise 💻
 
@@ -396,9 +437,11 @@ Create a graphql server using mercurius which:
 - Stores the pets and owners in postgres database
 - Uses single database call to get owners for all pets
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 Query shoud return:
 
@@ -421,11 +464,13 @@ Query shoud return:
 }
 ```
 
+</div>
+
 ---
 
-class: branded
-
 # Step 4: Solution
+
+<div class="two-columns gap-5">
 
 ```js
 // lib/db.js
@@ -456,9 +501,11 @@ const loaders = {
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 4: Trying it out
 
@@ -466,11 +513,13 @@ class: branded
 
 You can navigate to graphql query editor on http://localhost:3000/graphiql
 
-<img style="width: 50%; text-align: center" src="assets/step-02.jpg">
+<img style="width: 50%; text-align: center" src="/images/step-02.jpg">
+
+</div>
 
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 5: Exercise 💻
 
@@ -492,11 +541,13 @@ Create a graphql server using mercurius which:
 }
 ```
 
+</div>
+
 ---
 
-class: branded
-
 # Step 5: Solution
+
+<div class="middle-flex">
 
 ```js
 // server.js
@@ -524,9 +575,11 @@ const resolvers = {
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 5: Trying it out
 
@@ -549,7 +602,11 @@ curl --request POST \
 }
 ```
 
+</div>
+
 ---
+
+<div class="middle-flex">
 
 # Step 6: Exercise 💻
 
@@ -565,9 +622,11 @@ Create a graphql server using mercurius which:
   - onResolution
 - Returns an error with the message 'foo' along with the data
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 Query should return:
 
@@ -584,9 +643,11 @@ Query should return:
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 6: Solution
 
@@ -615,11 +676,13 @@ app.graphql.addHook('onResolution', async function () {
 })
 ```
 
+</div>
+
 ---
 
-class: branded
+# Step 6: Trying it output
 
-# Step 6: Trying it out
+<div class="flex-row">
 
 ### In terminal:
 
@@ -630,7 +693,11 @@ curl --request POST \
   --data '{"query":"{ add(x: 5, y:3) }"}'
 ```
 
+</div>
+
 Output:
+
+<div class="two-columns gap-5">
 
 ```bash
 preParsing called
@@ -652,24 +719,28 @@ onResolution called
 }
 ```
 
+</div>
+
 ---
+
+<div class="middle-flex">
 
 # Step 7: Exercise 💻
 
 Create a graphql server using mercurius which:
 
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
+- Exposes a GraphQL `POST /graphql` route and listens on port 3000
 - Has `User` type with `name` and `id` property
 - Has a predefined list of users of the type `User`
 - Has a query called `findUser` which accepts an `id` and
   - If the `id` matches then the corresponding user is returned
   - If the `id` does not match with any user then an error is thrown with the message 'Invalid User ID'
   - Also add a property `extensions` to the error object with the `code: USER_ID_INVALID` and `id: <query input>`
+</div>
 
 ---
 
-class: branded
+<div class="middle-flex">
 
 Query should return:
 
@@ -697,9 +768,11 @@ Query should return:
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 7: Solution
 
@@ -721,9 +794,11 @@ const resolvers = {
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 7: Trying it out
 
@@ -760,7 +835,11 @@ curl --request POST \
 }
 ```
 
+</div>
+
 ---
+
+<div class="middle-flex">
 
 # Step 8: Exercise 💻
 
@@ -773,9 +852,11 @@ Create a graphql server using mercurius which:
 - Service 2 has a `Post` type and a query which returns the top posts by a `User`
 - Has a predefined list of users of the type `User` and posts of type `Post`
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 Query should return:
 
@@ -802,24 +883,20 @@ Query should return:
 }
 ```
 
----
+</div>
 
-class: branded
+---
 
 # Step 8: Solution
 
+<div class="one-big-one-small-column gap-5">
+
 ```js
-// server.js
 async function start() {
   await createService(4001, service1.schema, service1.resolvers)
-
   await createService(4002, service2.schema, service2.resolvers)
 
-  const gateway = Fastify({
-    logger: {
-      prettyPrint: true
-    }
-  })
+  const gateway = Fastify({ logger: { prettyPrint: true } })
   gateway.register(mercurius, {
     graphiql: true,
     jit: 1,
@@ -836,7 +913,6 @@ async function start() {
       ]
     }
   })
-
   await gateway.listen(4000)
 }
 ```
@@ -852,9 +928,11 @@ service.register(mercurius, {
 })
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 8: Trying it out
 
@@ -874,9 +952,11 @@ curl --request POST \
   --data '{"query":"{ topPosts(count: 1) { title } }"}'
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 ##### Responses:
 
@@ -903,22 +983,24 @@ class: branded
 }
 ```
 
+</div>
+
 ---
 
 # Step 9: Exercise 💻
 
+<div class="flex-row">
+
 Create a graphql server using mercurius which:
 
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
+- Exposes a GraphQL `POST /graphql` route that listens on port 3000
 - Has schema which includes an `add` function that returns sum of two numbers
 - Has a resolver for the add function that returns the sum
 - Returns result if add function supplied with dynamic parameters `($x: Int!, $y: Int!)`
 - inputs to add function should be passed as variables `{ "x": 3, "y": 5 }`
+</div>
 
----
-
-class: branded
+<div class="two-columns gap-5">
 
 Query should return:
 
@@ -930,9 +1012,11 @@ Query should return:
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 9: Solution
 
@@ -948,9 +1032,11 @@ const resolvers = {
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 9: Trying it out
 
@@ -971,7 +1057,11 @@ curl --request POST \
 }
 ```
 
+</div>
+
 ---
+
+<div class="middle-flex">
 
 # Step 10: Exercise 💻
 
@@ -984,10 +1074,11 @@ Create a graphql server using mercurius which:
 - `getNoviceUsers` query returns users with level=novice
 - `getAdvancedUsers` query returns users with level=advanced
 - Query both methods using a fragment on the type `User`
+</div>
 
 ---
 
-class: branded
+<div class="middle-flex">
 
 Query should return:
 
@@ -1014,11 +1105,13 @@ Query should return:
 }
 ```
 
+</div>
+
 ---
 
-class: branded
-
 # Step 10: Solution
+
+<div class="middle-flex">
 
 ```js
 const schema = `
@@ -1034,7 +1127,6 @@ const schema = `
     getAdvancedUsers: [User]
   }
 `
-
 const resolvers = {
   Query: {
     getNoviceUsers() {
@@ -1047,9 +1139,11 @@ const resolvers = {
 }
 ```
 
+</div>
+
 ---
 
-class: branded
+<div class="middle-flex">
 
 # Step 10: Trying it out
 
@@ -1085,18 +1179,25 @@ curl --request POST \
 }
 ```
 
+</div>
+
 ---
 
-class: center, no-border, branded
+<div class="middle-flex">
 
 # 🏆 Write Tests 🏆
 
 > 💡 inspire from the code in the completed steps
 
+</div>
+
 ---
 
-class: center, no-border, branded
+<div class="middle-flex big">
 
 # Thanks For Having Us!
-
 ## 👏👏👏
+
+<img class=logo-bottom src="/images/nearform.svg">
+
+</div>
