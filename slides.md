@@ -1,5 +1,5 @@
 ---
-theme: ./theme
+theme: ./node_modules/@nearform/slidev-theme-nearform
 layout: image-right
 highlighter: shiki
 lineNumbers: false
