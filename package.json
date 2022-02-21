@@ -37,7 +37,7 @@
   "dependencies": {
     "@graphql-tools/schema": "^8.3.1",
     "@nearform/sql": "^1.9.0",
-    "@slidev/cli": "^0.28.5",
+    "@slidev/cli": "^0.28.6",
     "@slidev/theme-default": "*",
     "@vueuse/shared": "^7.6.2",
     "desm": "^1.2.0",
