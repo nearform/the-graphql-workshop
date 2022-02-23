@@ -49,7 +49,7 @@
     "mercurius": "^9.3.3",
     "pg": "^8.7.3",
     "pino-pretty": "^7.5.1",
-    "postgrator-cli": "^4.0.0",
+    "postgrator-cli": "^5.0.0",
     "slidev-theme-nearform": "^1.2.0"
   }
 }
