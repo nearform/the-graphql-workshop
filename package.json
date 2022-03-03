@@ -44,7 +44,7 @@
     "env-schema": "^3.5.2",
     "fastify": "^3.27.2",
     "fastify-postgres": "^3.6.0",
-    "fluent-json-schema": "^3.0.1",
+    "fluent-json-schema": "^3.1.0",
     "graphql": "^16.3.0",
     "mercurius": "^9.3.3",
     "pg": "^8.7.3",
