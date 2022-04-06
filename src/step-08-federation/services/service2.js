@@ -2,28 +2,17 @@ import { posts } from '../data.js'
 
 const service2 = {
   schema: `
-  type Post @key(fields: "pid") {
-    pid: ID!
+  type Post @key(fields: "id") {
+    id: ID!
     title: String
     content: String
-    author: User @requires(fields: "pid title")
-  }
-
-  type Query @extends {
-    topPosts(count: Int): [Post]
+    author: User
   }
 
   type User @key(fields: "id") @extends {
     id: ID! @external
     name: String @external
     posts: [Post]
-    numberOfPosts: Int @requires(fields: "id name")
-  }
-
-  input PostInput {
-    title: String!
-    content: String!
-    authorId: String!
   }
 `,
   resolvers: {
@@ -38,13 +27,7 @@ const service2 = {
     User: {
       posts: user => {
         return Object.values(posts).filter(p => p.authorId === user.id)
-      },
-      numberOfPosts: user => {
-        return Object.values(posts).filter(p => p.authorId === user.id).length
       }
-    },
-    Query: {
-      topPosts: (root, { count }) => Object.values(posts).slice(0, count)
     }
   }
 }
