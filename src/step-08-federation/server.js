@@ -14,6 +14,7 @@ async function start() {
       prettyPrint: true
     }
   })
+
   gateway.register(mercurius, {
     graphiql: true,
     jit: 1,

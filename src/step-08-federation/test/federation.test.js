@@ -48,36 +48,21 @@ test('Runs in gateway mode with two services ', async t => {
   })
 
   const query = `
-  query MainQuery(
-    $count: Int
-  ) {
+  query {
     me {
       id
       name
-      friends {
-        ...UserFragment
-        friends {
-          ...UserFragment
-        }
-      }
       posts {
         ...PostFragment
       }
-      numberOfPosts
     }
-    topPosts(count: $count) {
-      ...PostFragment
-    }
-    hello
   }
   fragment UserFragment on User {
     id
     name
-    numberOfPosts
-    fullName
   }
   fragment PostFragment on Post {
-    pid
+    id
     title
     content
     ...AuthorFragment
@@ -108,88 +93,27 @@ test('Runs in gateway mode with two services ', async t => {
       me: {
         id: 'u1',
         name: 'John',
-        friends: [
-          {
-            id: 'u2',
-            name: 'Jane',
-            numberOfPosts: 2,
-            fullName: 'Jane Doe',
-            friends: [
-              {
-                id: 'u1',
-                name: 'John',
-                numberOfPosts: 2,
-                fullName: 'John Doe'
-              },
-              {
-                id: 'u3',
-                name: 'Jack',
-                numberOfPosts: 0,
-                fullName: 'Jack Doe'
-              }
-            ]
-          },
-          {
-            id: 'u3',
-            name: 'Jack',
-            numberOfPosts: 0,
-            fullName: 'Jack Doe',
-            friends: [
-              {
-                id: 'u1',
-                name: 'John',
-                numberOfPosts: 2,
-                fullName: 'John Doe'
-              },
-              {
-                id: 'u2',
-                name: 'Jane',
-                numberOfPosts: 2,
-                fullName: 'Jane Doe'
-              }
-            ]
-          }
-        ],
         posts: [
           {
-            pid: 'p1',
+            id: 'p1',
             title: 'Post 1',
             content: 'Content 1',
             author: {
               id: 'u1',
-              name: 'John',
-              numberOfPosts: 2,
-              fullName: 'John Doe'
+              name: 'John'
             }
           },
           {
-            pid: 'p3',
+            id: 'p3',
             title: 'Post 3',
             content: 'Content 3',
             author: {
               id: 'u1',
-              name: 'John',
-              numberOfPosts: 2,
-              fullName: 'John Doe'
+              name: 'John'
             }
           }
-        ],
-        numberOfPosts: 2
-      },
-      topPosts: [
-        {
-          pid: 'p1',
-          title: 'Post 1',
-          content: 'Content 1',
-          author: {
-            id: 'u1',
-            name: 'John',
-            numberOfPosts: 2,
-            fullName: 'John Doe'
-          }
-        }
-      ],
-      hello: 'World'
+        ]
+      }
     }
   })
 })

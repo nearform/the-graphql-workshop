@@ -9,6 +9,8 @@ lineNumbers: false
 
 # The GraphQL Workshop
 
+## A guide to doing GraphQL with Fastify and Mercurius
+
 <div class="copyright">
 
 © Copyright 2019-2022 NearForm Ltd. All Rights Reserved.
@@ -19,30 +21,26 @@ lineNumbers: false
 
 # Introduction: Why Mercurius
 
-<div class="flex-row dense">
+<div class="dense">
 
-- Mercurius is a **high-performance** GraphQL adapter for the popular Fastify web framework.
-  It has lots of features and plugins for building world class production-ready applications.
-- It provides a Just-In-Time compiler via graphql-jit and an **automatic loader integration** to avoid N + 1 queries.  
-- Mercurius also supports the Apollo Federation specification out of the box.
+- Mercurius is a **high-performance** GraphQL adapter for the popular Fastify web framework
+- It has many of features and plugins for building world class production-ready applications
+- It provides a Just-In-Time compiler via graphql-jit and an **automatic loader integration** to avoid N + 1 queries
+- Mercurius also supports the Apollo Federation specification out of the box
 
 </div>
 
 ---
 
-# Pre-requisites
-
-<div class="flex-row">
+# Prerequisites
 
 - This workshop requires an understanding of the Fastify framework.  
   Please go through the fastify workshop first.  
   Link - https://github.com/nearform/the-fastify-workshop
 
-</div>
-
 ---
 
-<div class="middle-flex dense">
+<div class="dense">
 
 # Core features
 
@@ -54,29 +52,25 @@ lineNumbers: false
 - Federated subscriptions support
 - Gateway implementation, including Subscriptions
 - Batched query support
-- Customisable persisted queries
+- Customizable persisted queries
 
 </div>
 
 ---
 
-<div class="middle-flex">
-
 # Getting setup
 
-#### Requirements
+## Requirements
 
 - Node LTS
 - npm >= 7
 
-#### Setup
+## Setup
 
 ```bash
 git clone https://github.com/nearform/the-graphql-workshop
 npm ci
 ```
-
-</div>
 
 ---
 
@@ -114,18 +108,17 @@ npm run start
 
 ---
 
-<div class="middle-flex dense">
+<div class="dense">
 
-# Step 1: Exercise 💻
+# Step 1: Basic 💻
 
-Write a basic graphql query which exposes an add function to return
-sum of two numbers which:
+Create a GraphQL server which exposes an `add` function to compute sum of two numbers.
 
 - Exposes a GraphQL `POST /graphql` route
 - Listens on port 3000
-- Has schema including an `add` function that returns sum of 2 numbers
-- Has a resolver for the add function that returns the sum
-- Responds with the JSON object if add function supplied with parameters (x:5, y:3)
+- Has a schema including an `add` query accepting parameters `x` and `y`
+- Has a resolver for the `add` query
+- Responds with the JSON object when invoked with `(x:5, y:3)`
 
 ```json
 {
@@ -138,8 +131,6 @@ sum of two numbers which:
 </div>
 
 ---
-
-<div class="flex-row flex-row">
 
 # Step 1: Solution
 
@@ -167,11 +158,7 @@ app.register(mercurius, {
 app.listen(3000)
 ```
 
-</div>
-
 ---
-
-<div class="middle-flex">
 
 # Step 1: Trying it out
 
@@ -192,30 +179,21 @@ curl --request POST \
 }
 ```
 
-</div>
-
 ---
 
-<div class="middle-flex dense">
+<div class="dense">
 
-# Step 2: Exercise 💻
+# Step 2: Loaders 💻
 
-Write a graphql query which:
-
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
-- Has `Human` type with `name` property
-- Has `Pet` type with `name` and `owner`(Human) property
-- Allows to query all pets and it's owners by using graphql loaders
-- Responds with the JSON object
+- Create a `Human` type with `name` property
+- Create a `Pet` type with `name` and `owner` property (of type `Human`)
+- Exposes a `pets` query which returns all pets and, for each pet, its owner **using GraphQL loaders**
 
 </div>
 
 ---
 
-<div class="middle-flex">
-
-Query should return:
+- The query should return a JSON object:
 
 ```json
 {
@@ -235,8 +213,6 @@ Query should return:
   }
 }
 ```
-
-</div>
 
 ---
 
@@ -266,7 +242,6 @@ const owners = {
   }
 }
 ```
-
 
 ```js
 const schema = `
@@ -335,24 +310,13 @@ You can navigate to graphql query editor on http://localhost:3000/graphiql
 
 ---
 
-<div class="middle-flex dense">
+<div class="dense">
 
-# Step 3: Exercise 💻
+# Step 3: Executable schema 💻
 
-Create a graphql server using mercurius which:
-
-- Exposes a GraphQL `POST /graphql` route that listens on port 3000
-- Creates a GraphQL query to add two numbers and write resolvers
-- Creates an executable schema using typeDefs and resolves and supplies it to mercurius
-- Responds with the JSON object if add function is supplied with parameters (x:5, y:3)
-
-```json
-{
-  "data": {
-    "add": 8
-  }
-}
-```
+- Create an executable schema using `typeDefs` and `resolvers`
+- Use the `@graphql-tools/schema` package to create the executable schema
+- Implement the same `add` functionality as in the earlier step
 
 </div>
 
@@ -387,7 +351,8 @@ const resolvers = {
 ```js
 app.register(mercurius, {
   schema: makeExecutableSchema({
-    typeDefs, resolvers
+    typeDefs,
+    resolvers
   })
 })
 
@@ -398,71 +363,14 @@ app.listen(3000)
 
 ---
 
-<div class="middle-flex">
+<div class="dense">
 
-# Step 3: Trying it out
+# Step 4: SELECT N+1 problem 💻
 
-### In the terminal:
-
-```bash
-curl --request POST \
-  --url http://localhost:3000/graphql \
-  --header 'Content-Type: application/json' \
-  --data '{"query":"{ add(x: 5, y:3) }"}'
-```
-
-```json
-{
-  "data": {
-    "add": 8
-  }
-}
-```
-
-</div>
-
----
-
-<div class="middle-flex dense">
-
-# Step 4: Exercise 💻
-
-Create a graphql server using mercurius which:
-
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
-- Has `Human` type with `name` property
-- Has `Pet` type with `name` and `owner`(Human) property
-- Allows to query all pets and it's owners by using graphql loaders
+- Implement the same Pet and Owners functionality as before
+- Allows to query all pets and its owners by using GraphQL loaders
 - Stores the pets and owners in postgres database
-- Uses single database call to get owners for all pets
-
-</div>
-
----
-
-<div class="middle-flex">
-
-Query shoud return:
-
-```json
-{
-  "data": {
-    "pets": [
-      {
-        "owner": {
-          "name": "Jennifer"
-        }
-      },
-      {
-        "owner": {
-          "name": "Simon"
-        }
-      }
-    ]
-  }
-}
-```
+- Uses a **single database query** to get owners for all pets
 
 </div>
 
@@ -474,14 +382,14 @@ Query shoud return:
 
 ```js
 // lib/db.js
-export async function ownersByName(db, names) {
+export async function ownersByPetNames(db, petNames) {
   const { rows } = await db.query(
     SQL`
-      SELECT o.name
-      FROM owners o
-      INNER JOIN pets p
-        ON p.owner = o.id
-        AND p.name = ANY(${names})
+      SELECT owners.*
+      FROM owners
+      INNER JOIN pets
+        ON pets.owner = owners.id
+        AND pets.name = ANY(${petNames})
     `
   )
 
@@ -495,7 +403,7 @@ const loaders = {
   Pet: {
     async owner(queries, context) {
       const pets = queries.map(({ obj }) => obj.name)
-      return ownersByName(context.app.pg, pets)
+      return ownersByPetNames(context.app.pg, pets)
     }
   }
 }
@@ -505,31 +413,15 @@ const loaders = {
 
 ---
 
-<div class="middle-flex">
+<div class="dense">
 
-# Step 4: Trying it out
+# Step 5: Context 💻
 
-### In Graphiql:
-
-You can navigate to graphql query editor on http://localhost:3000/graphiql
-
-<img style="width: 50%; text-align: center" src="/images/step-02.jpg">
-
-</div>
-
----
-
-<div class="middle-flex dense">
-
-# Step 5: Exercise 💻
-
-Create a graphql server using mercurius which:
-
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
-- Has `User` type with `name` and `locale` property
-- Has a query called `getUserByLocale` returning user with `en` locale
+- Create a `User` type with `name` and `locale` properties
+- Create an in-memory array of `User` with different locales
+- Create a query called `getUserByLocale` returning user with `en` locale
 - Sets the property `locale: 'en'` in the mercurius context
+- Response with JSON object:
 
 ```json
 {
@@ -547,11 +439,8 @@ Create a graphql server using mercurius which:
 
 # Step 5: Solution
 
-<div class="middle-flex">
-
 ```js
 // server.js
-
 const app = Fastify()
 
 app.register(mercurius, {
@@ -565,7 +454,6 @@ app.register(mercurius, {
 
 ```js
 // graphql.js
-
 const resolvers = {
   Query: {
     getUserByLocale(_, __, context) {
@@ -575,60 +463,25 @@ const resolvers = {
 }
 ```
 
-</div>
-
 ---
 
-<div class="middle-flex">
+<div class="dense">
 
-# Step 5: Trying it out
+# Step 6: Hooks 💻
 
-### In terminal:
-
-```bash
-curl --request POST \
-  --url http://localhost:3000/graphql \
-  --header 'Content-Type: application/json' \
-  --data '{"query":"{ getUserByLocale { name } }"}'
-```
-
-```json
-{
-  "data": {
-    "getUserByLocale": {
-      "name": "Alice"
-    }
-  }
-}
-```
+- Create a query called `sum` which returns the sum of two numbers
+- Create and print logs for the following hooks:
+  - `preParsing`
+  - `preValidation`
+  - `preExecution`
+  - `onResolution`
+- Enrich the response with an error with the message 'foo' along with the data in the `preExecution` hook
 
 </div>
 
 ---
 
-<div class="middle-flex dense">
-
-# Step 6: Exercise 💻
-
-Create a graphql server using mercurius which:
-
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
-- Has a query called `sum` which returns sum of two numbers
-- Creates and logs the following hooks
-  - preParsing
-  - preValidation
-  - preExecution
-  - onResolution
-- Returns an error with the message 'foo' along with the data
-
-</div>
-
----
-
-<div class="middle-flex">
-
-Query should return:
+- Query should return:
 
 ```json
 {
@@ -643,17 +496,12 @@ Query should return:
 }
 ```
 
-</div>
-
 ---
-
-<div class="middle-flex">
 
 # Step 6: Solution
 
 ```js
 // server.js
-
 app.graphql.addHook('preParsing', async function () {
   app.log.info('preParsing called')
 })
@@ -676,15 +524,13 @@ app.graphql.addHook('onResolution', async function () {
 })
 ```
 
-</div>
-
 ---
 
-# Step 6: Trying it output
+# Step 6: Trying it out
 
 <div class="flex-row">
 
-### In terminal:
+In terminal
 
 ```bash
 curl --request POST \
@@ -695,7 +541,7 @@ curl --request POST \
 
 </div>
 
-Output:
+Output
 
 <div class="two-columns gap-5">
 
@@ -723,24 +569,23 @@ onResolution called
 
 ---
 
-<div class="middle-flex dense">
+<div class="dense">
 
-# Step 7: Exercise 💻
+# Step 7: Error handling 💻
 
-Create a graphql server using mercurius which:
-
-- Exposes a GraphQL `POST /graphql` route and listens on port 3000
-- Has `User` type with `name` and `id` property
-- Has a predefined list of users of the type `User`
-- Has a query called `findUser` which accepts an `id` and
+- Create `User` type with `name` and `id` property
+- Create an in-memory array of users of type `User`
+- Create a query `findUser` which accepts an `id` and
   - If the `id` matches then the corresponding user is returned
-  - If the `id` does not match with any user then an error is thrown with the message 'Invalid User ID'
-  - Also add a property `extensions` to the error object with the `code: USER_ID_INVALID` and `id: <query input>`
+  - If the `id` does not match with any user then an error is thrown with the message `"Invalid User ID"`
+- Add a property `extensions` to the error object with properties:
+  - `code: USER_ID_INVALID`
+  - `id: <query input>`
+- 💡 Use Mercurius `ErrorWithProps` to create the error
+
 </div>
 
 ---
-
-<div class="middle-flex">
 
 Query should return:
 
@@ -768,11 +613,7 @@ Query should return:
 }
 ```
 
-</div>
-
 ---
-
-<div class="middle-flex">
 
 # Step 7: Solution
 
@@ -781,75 +622,36 @@ const resolvers = {
   Query: {
     findUser: (_, { id }) => {
       const user = users[id]
+
       if (user) {
         return users[id]
-      } else {
-        throw new ErrorWithProps('Invalid User ID', {
-          id,
-          code: 'USER_ID_INVALID'
-        })
       }
+
+      throw new ErrorWithProps('Invalid User ID', {
+        id,
+        code: 'USER_ID_INVALID'
+      })
     }
   }
 }
 ```
 
-</div>
-
 ---
 
-<div class="middle-flex">
+<div class="dense">
 
-# Step 7: Trying it out
+# Step 8: Federation 💻
 
-### In terminal:
-
-```bash
-curl --request POST \
-  --url http://localhost:3000/graphql \
-  --header 'Content-Type: application/json' \
-  --data '{"query":"{ findUser (id: \"5\") { id, name } }"}'
-```
-
-```json
-{
-  "data": { "findUser": null },
-  "errors": [
-    {
-      "message": "Invalid User ID",
-      "locations": [{ "line": 2, "column": 3 }],
-      "path": ["findUser"],
-      "extensions": {
-        "code": "USER_ID_INVALID",
-        "id": "5"
-      }
-    }
-  ]
-}
-```
+- Create a Federated GraphQL gateway which listens on port 4000
+- Run two GraphQL services on ports 4001 and 4002
+- Service 1 has a `User` type and a `me` query which returns the user
+- Service 2 has a `Post` type and extends `User` with a `posts` array which are the posts of that user
+- Has an in-memory array of users of the type `User` and posts of type `Post`
+- Expose the two services from the gateway
 
 </div>
 
 ---
-
-<div class="middle-flex dense">
-
-# Step 8: Exercise 💻
-
-Create a graphql server using mercurius which:
-
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 4000
-- Run two graphql services on ports 4001 and 4002
-- Service 1 has a `User` type and a query which returns the user
-- Service 2 has a `Post` type and a query which returns the top posts by a `User`
-- Has a predefined list of users of the type `User` and posts of type `Post`
-
-</div>
-
----
-
-<div class="middle-flex">
 
 Query should return:
 
@@ -858,25 +660,22 @@ Query should return:
   "data": {
     "me": {
       "name": "John",
-      "numberOfPosts": 2
+      "posts": [
+        {
+          "id": "p1",
+          "title": "Post 1",
+          "content": "Content 1"
+        },
+        {
+          "id": "p3",
+          "title": "Post 3",
+          "content": "Content 3"
+        }
+      ]
     }
   }
 }
 ```
-
-```json
-{
-  "data": {
-    "topPosts": [
-      {
-        "title": "Post 1"
-      }
-    ]
-  }
-}
-```
-
-</div>
 
 ---
 
@@ -896,7 +695,7 @@ async function start() {
     gateway: {
       services: [
         { name: 'user', url: 'http://localhost:4001/graphql' },
-        { name: 'post',  url: 'http://localhost:4002/graphql' }
+        { name: 'post', url: 'http://localhost:4002/graphql' }
       ]
     }
   })
@@ -915,84 +714,20 @@ service.register(mercurius, {
 })
 ```
 
-</div>
-
----
-
-<div class="middle-flex">
-
-# Step 8: Trying it out
-
-### In terminal:
-
-```bash
-curl --request POST \
-  --url http://localhost:4000/graphql \
-  --header 'Content-Type: application/json' \
-  --data '{"query":"{ me { name, numberOfPosts } }"}'
-```
-
-```bash
-curl --request POST \
-  --url http://localhost:4000/graphql \
-  --header 'Content-Type: application/json' \
-  --data '{"query":"{ topPosts(count: 1) { title } }"}'
-```
+> 💡 see service1 and service2 implementations in the repo
 
 </div>
 
 ---
 
-<div class="middle-flex">
+# Step 9: Variables 💻
 
-##### Responses:
+<div class="dense">
 
-```json
-{
-  "data": {
-    "me": {
-      "name": "John",
-      "numberOfPosts": 2
-    }
-  }
-}
-```
-
-```json
-{
-  "data": {
-    "topPosts": [
-      {
-        "title": "Post 1"
-      }
-    ]
-  }
-}
-```
-
-</div>
-
----
-
-# Step 9: Exercise 💻
-
-<div class="flex-row dense">
-
-Create a graphql server using mercurius which:
-
-- Exposes a GraphQL `POST /graphql` route that listens on port 3000
-- Has schema which includes an `add` function that returns sum of two numbers
-- Has a resolver for the add function that returns the sum
-- Returns result if add function supplied with dynamic parameters<br/>`($x: Int!, $y: Int!)`
-- inputs to add function should be passed as variables<br/>`{ "x": 3, "y": 5 }`
-</div>
-
-
----
-
-<div class="flex-row">
-
-Query should return:
+- Implement `add` functionality as before
+- The `add` function is supplied ith dynamic parameters<br/>`($x: Int!, $y: Int!)`
+- The inputs to the `add` function should be passed as query variables, e.g <br/>`{ "x": 3, "y": 5 }`
+- Query should return:
 
 ```json
 {
@@ -1005,8 +740,6 @@ Query should return:
 </div>
 
 ---
-
-<div class="middle-flex">
 
 # Step 9: Solution
 
@@ -1021,8 +754,6 @@ const resolvers = {
   add: async ({ x, y }) => x + y
 }
 ```
-
-</div>
 
 ---
 
@@ -1051,24 +782,21 @@ curl --request POST \
 
 ---
 
-<div class="middle-flex dense">
+<div class="dense">
 
-# Step 10: Exercise 💻
+# Step 10: Fragments 💻
 
-Create a graphql server using mercurius which:
+Create a GraphQL server using mercurius which:
 
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
 - Has `User` type with `id`, `name`, `age` and `level` properties
 - Has two Query methods named `getNoviceUsers` and `getAdvancedUsers` which return type `User`
-- `getNoviceUsers` query returns users with level=novice
-- `getAdvancedUsers` query returns users with level=advanced
+  - `getNoviceUsers` query returns users with `level: novice`
+  - `getAdvancedUsers` query returns users with `level: advanced`
 - Query both methods using a fragment on the type `User`
+
 </div>
 
 ---
-
-<div class="middle-flex">
 
 Query should return:
 
@@ -1094,8 +822,6 @@ Query should return:
   }
 }
 ```
-
-</div>
 
 ---
 
@@ -1137,13 +863,13 @@ const resolvers = {
 
 # Step 10: Trying it out
 
-### In terminal:
+### In terminal
 
 ```bash
 curl --request POST \
   --url http://localhost:3000/graphql \
   --header 'Content-Type: application/json' \
-  --data '{"query":"{ getNoviceUsers { ...userFields } getAdvancedUsers { ...userFields } } fragment userFields on User { id  name age level }","variables":{"x":3,"y":5}}'
+  --data '{"query":"{ getNoviceUsers { ...userFields } getAdvancedUsers { ...userFields } } fragment userFields on User { id  name age level }"}'
 ```
 
 ```json
@@ -1186,6 +912,7 @@ curl --request POST \
 <div class="middle-flex big">
 
 # Thanks For Having Us!
+
 ## 👏👏👏
 
 <img class=logo-bottom src="/images/nearform.svg">
