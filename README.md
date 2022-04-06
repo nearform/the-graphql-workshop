@@ -1,5 +1,9 @@
 # The GraphQL Workshop
 
+[![ci](https://github.com/nearform/the-graphql-workshop/actions/workflows/ci.yml/badge.svg)](https://github.com/nearform/the-graphql-workshop/actions/workflows/ci.yml)
+
+A step by step guide to implement a GraphQL server with Fastify and Mercurius.
+
 ## Requirements
 
 - Node LTS
