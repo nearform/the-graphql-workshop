@@ -1,7 +1,6 @@
 ---
 theme: slidev-theme-nearform
-layout: image-right
-image: https://source.unsplash.com/collection/94734566/1920x1080
+layout: default
 highlighter: shiki
 lineNumbers: false
 ---
@@ -20,12 +19,12 @@ lineNumbers: false
 
 # Introduction: Why Mercurius
 
-<div class="flex-row">
+<div class="flex-row dense">
 
 - Mercurius is a **high-performance** GraphQL adapter for the popular Fastify web framework.
   It has lots of features and plugins for building world class production-ready applications.
 - It provides a Just-In-Time compiler via graphql-jit and an **automatic loader integration** to avoid N + 1 queries.  
-  Mercurius also supports the Apollo Federation specification out of the box.
+- Mercurius also supports the Apollo Federation specification out of the box.
 
 </div>
 
@@ -43,7 +42,7 @@ lineNumbers: false
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Core features
 
@@ -81,7 +80,7 @@ npm ci
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Workshop structure
 
@@ -115,7 +114,7 @@ npm run start
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 1: Exercise 💻
 
@@ -124,7 +123,7 @@ sum of two numbers which:
 
 - Exposes a GraphQL `POST /graphql` route
 - Listens on port 3000
-- Has schema which includes an `add` function that returns sum of two numbers
+- Has schema including an `add` function that returns sum of 2 numbers
 - Has a resolver for the add function that returns the sum
 - Responds with the JSON object if add function supplied with parameters (x:5, y:3)
 
@@ -197,7 +196,7 @@ curl --request POST \
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 2: Exercise 💻
 
@@ -336,7 +335,7 @@ You can navigate to graphql query editor on http://localhost:3000/graphiql
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 3: Exercise 💻
 
@@ -424,7 +423,7 @@ curl --request POST \
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 4: Exercise 💻
 
@@ -520,7 +519,7 @@ You can navigate to graphql query editor on http://localhost:3000/graphiql
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 5: Exercise 💻
 
@@ -529,7 +528,7 @@ Create a graphql server using mercurius which:
 - Exposes a GraphQL `POST /graphql` route
 - Listens on port 3000
 - Has `User` type with `name` and `locale` property
-- Has a query called `getUserByLocale` which returns user having `en` locale
+- Has a query called `getUserByLocale` returning user with `en` locale
 - Sets the property `locale: 'en'` in the mercurius context
 
 ```json
@@ -607,7 +606,7 @@ curl --request POST \
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 6: Exercise 💻
 
@@ -724,7 +723,7 @@ onResolution called
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 7: Exercise 💻
 
@@ -814,18 +813,11 @@ curl --request POST \
 
 ```json
 {
-  "data": {
-    "findUser": null
-  },
+  "data": { "findUser": null },
   "errors": [
     {
       "message": "Invalid User ID",
-      "locations": [
-        {
-          "line": 2,
-          "column": 3
-        }
-      ],
+      "locations": [{ "line": 2, "column": 3 }],
       "path": ["findUser"],
       "extensions": {
         "code": "USER_ID_INVALID",
@@ -840,7 +832,7 @@ curl --request POST \
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 8: Exercise 💻
 
@@ -903,14 +895,8 @@ async function start() {
     jit: 1,
     gateway: {
       services: [
-        {
-          name: 'user',
-          url: 'http://localhost:4001/graphql'
-        },
-        {
-          name: 'post',
-          url: 'http://localhost:4002/graphql'
-        }
+        { name: 'user', url: 'http://localhost:4001/graphql' },
+        { name: 'post',  url: 'http://localhost:4002/graphql' }
       ]
     }
   })
@@ -990,18 +976,21 @@ curl --request POST \
 
 # Step 9: Exercise 💻
 
-<div class="flex-row">
+<div class="flex-row dense">
 
 Create a graphql server using mercurius which:
 
 - Exposes a GraphQL `POST /graphql` route that listens on port 3000
 - Has schema which includes an `add` function that returns sum of two numbers
 - Has a resolver for the add function that returns the sum
-- Returns result if add function supplied with dynamic parameters `($x: Int!, $y: Int!)`
-- inputs to add function should be passed as variables `{ "x": 3, "y": 5 }`
+- Returns result if add function supplied with dynamic parameters<br/>`($x: Int!, $y: Int!)`
+- inputs to add function should be passed as variables<br/>`{ "x": 3, "y": 5 }`
 </div>
 
-<div class="two-columns gap-5">
+
+---
+
+<div class="flex-row">
 
 Query should return:
 
@@ -1062,7 +1051,7 @@ curl --request POST \
 
 ---
 
-<div class="middle-flex">
+<div class="middle-flex dense">
 
 # Step 10: Exercise 💻
 
