@@ -42,7 +42,7 @@
     "@vueuse/shared": "^8.2.4",
     "desm": "^1.2.0",
     "env-schema": "^4.0.0",
-    "fastify": "^3.27.4",
+    "fastify": "^3.28.0",
     "fastify-postgres": "^3.6.0",
     "fluent-json-schema": "^3.1.0",
     "graphql": "^16.3.0",
