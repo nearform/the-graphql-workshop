@@ -16,23 +16,16 @@
     "db:migrate": "postgrator",
     "db:down": "docker-compose down",
     "lint": "eslint .",
-    "test": "tap"
+    "test": "c8 tap --no-cov"
   },
   "devDependencies": {
-    "@istanbuljs/esm-loader-hook": "^0.1.2",
+    "c8": "^7.11.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
     "sinon": "^13.0.1",
     "tap": "^16.0.1"
-  },
-  "tap": {
-    "node-arg": [
-      "--no-warnings",
-      "--experimental-loader",
-      "@istanbuljs/esm-loader-hook"
-    ]
   },
   "dependencies": {
     "@graphql-tools/schema": "^8.3.6",

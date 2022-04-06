@@ -3,6 +3,6 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "tap"
+    "test": "c8 tap --no-cov"
   }
 }
