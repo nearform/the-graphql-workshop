@@ -48,7 +48,7 @@ https://github.com/nearform/the-fastify-workshop
 # Mercurius core features
 
 - **Caching** of query parsing and validation
-- Automatic **loader** integration to avoid 1 + N queries
+- Automatic **loader** integration to avoid the N+1 problem
 - Just-In-Time compiler via graphql-jit
 - **Subscriptions**
 - **Federation** support
@@ -190,7 +190,7 @@ curl --request POST \
 
 # Step 2: Loaders 💻
 
-A loader is an utility to avoid the 1 + N query problem of GraphQL. Each defined loader will register a resolver that coalesces each of the request and combines them into a single, bulk query.
+A loader is an utility to avoid the N+1 query problem of GraphQL. Each defined loader will register a resolver that coalesces each of the request and combines them into a single, bulk query.
 
 Moreover, it can also cache the results, so that other parts of the GraphQL do not have to fetch the same data.
 
