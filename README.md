@@ -1,6 +1,7 @@
 # The GraphQL Workshop
 
 [![ci](https://github.com/nearform/the-graphql-workshop/actions/workflows/ci.yml/badge.svg)](https://github.com/nearform/the-graphql-workshop/actions/workflows/ci.yml)
+[![deploy](https://github.com/nearform/the-graphql-workshop/actions/workflows/deploy.yml/badge.svg)](https://github.com/nearform/the-graphql-workshop/actions/workflows/deploy.yml)
 
 A step by step guide to implement a GraphQL server with Fastify and Mercurius.
 
