@@ -8,6 +8,9 @@
   "version": "1.0.0",
   "license": "CC-BY-SA-4.0",
   "author": "Sameer Srivastava <sameer.srivastava@nearform.com>",
+  "contributors": [
+    "Simone Busoli <simone.busoli@nearform.com>"
+  ],
   "scripts": {
     "build": "slidev build",
     "start": "slidev --open",
