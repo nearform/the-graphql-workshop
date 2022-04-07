@@ -1,13 +1,13 @@
 import { loadPets, ownersByPetNames } from './lib/db.js'
 
 const schema = `
-  type Human {
+  type Person {
     name: String!
   }
 
   type Pet {
     name: String!
-    owner: Human
+    owner: Person
   }
 
   type Query {

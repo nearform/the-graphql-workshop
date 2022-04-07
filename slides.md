@@ -9,24 +9,25 @@ lineNumbers: false
 
 # The GraphQL Workshop
 
-## A guide to doing GraphQL with Fastify and Mercurius
+### **A guide to GraphQL with Fastify and Mercurius**
 
 <div class="copyright">
 
-© Copyright 2019-2022 NearForm Ltd. All Rights Reserved.
+© Copyright 2022 NearForm Ltd
 
 </div>
 
 ---
 
-# Introduction: Why Mercurius
+# Why Mercurius
 
 <div class="dense">
 
-- Mercurius is a **high-performance** GraphQL adapter for the popular Fastify web framework
-- It has many of features and plugins for building world class production-ready applications
-- It provides a Just-In-Time compiler via graphql-jit and an **automatic loader integration** to avoid N + 1 queries
-- Mercurius also supports the Apollo Federation specification out of the box
+- [Mercurius](https://mercurius.dev/) is a **high-performance** GraphQL adapter for the [Fastify](https://www.fastify.io/) web framework
+- It has many core features and plugins for building world class production-ready applications
+- It supports advanced features out of the box such as [Apollo Federation specification](https://www.apollographql.com/docs/federation/federation-spec/) and Subscriptions
+- It's entirely **Open Source** and made available under the MIT license
+- It has a rich and vibrant community contributing to its development
 
 </div>
 
@@ -34,24 +35,26 @@ lineNumbers: false
 
 # Prerequisites
 
-- This workshop requires an understanding of the Fastify framework.  
-  Please go through the fastify workshop first.  
-  Link - https://github.com/nearform/the-fastify-workshop
+This workshop requires an understanding of the **Fastify** framework.
+
+We recommend a basic knowledge of the Fastify plugin system which can be acquired by following a workshop similar to this one, focused on Fastify.
+
+https://github.com/nearform/the-fastify-workshop
 
 ---
 
 <div class="dense">
 
-# Core features
+# Mercurius core features
 
-- Caching of query parsing and validation
-- Automatic loader integration to avoid 1 + N queries
+- **Caching** of query parsing and validation
+- Automatic **loader** integration to avoid 1 + N queries
 - Just-In-Time compiler via graphql-jit
-- Subscriptions
-- Federation support
+- **Subscriptions**
+- **Federation** support
 - Federated subscriptions support
 - Gateway implementation, including Subscriptions
-- Batched query support
+- **Batched** query support
 - Customizable persisted queries
 
 </div>
@@ -60,21 +63,23 @@ lineNumbers: false
 
 # Getting setup
 
-## Requirements
+<div class="dense">
 
-- Node LTS
-- npm >= 7
-
-## Setup
+Clone the repository:
 
 ```bash
 git clone https://github.com/nearform/the-graphql-workshop
-npm ci
 ```
+
+Follow the instructions in the [README](https://github.com/nearform/the-graphql-workshop) file
+
+💡 Ask if anything doesn't work!
+
+</div>
 
 ---
 
-<div class="middle-flex dense">
+<div class="dense">
 
 # Workshop structure
 
@@ -89,19 +94,19 @@ npm ci
 
 ---
 
-<div class="middle-flex">
+<div class="dense">
 
 # Running the modules
 
 - `cd src/step-{n}-{name}`
-- Check out README.md
+- Check out the README file in each step
 
 #### Example
 
 ```bash
 cd src/step-01-basic
 
-npm run start
+npm start
 ```
 
 </div>
@@ -112,13 +117,13 @@ npm run start
 
 # Step 1: Basic 💻
 
-Create a GraphQL server which exposes an `add` function to compute sum of two numbers.
+Create a GraphQL server which exposes an `add` function to compute the sum of two numbers.
 
-- Exposes a GraphQL `POST /graphql` route
-- Listens on port 3000
-- Has a schema including an `add` query accepting parameters `x` and `y`
-- Has a resolver for the `add` query
-- Responds with the JSON object when invoked with `(x:5, y:3)`
+- Expose a GraphQL `POST /graphql` route
+- Listen on port 3000
+- Create a schema including an `add` Query accepting parameters `x` and `y`
+- Implement a resolver for the `add` query
+- Respond with the JSON object when invoked with `(x:5, y:3)`
 
 ```json
 {
@@ -185,13 +190,19 @@ curl --request POST \
 
 # Step 2: Loaders 💻
 
-- Create a `Human` type with `name` property
-- Create a `Pet` type with `name` and `owner` property (of type `Human`)
-- Exposes a `pets` query which returns all pets and, for each pet, its owner **using GraphQL loaders**
+A loader is an utility to avoid the 1 + N query problem of GraphQL. Each defined loader will register a resolver that coalesces each of the request and combines them into a single, bulk query.
+
+Moreover, it can also cache the results, so that other parts of the GraphQL do not have to fetch the same data.
+
+- Create a `Person` type with `name` property
+- Create a `Pet` type with `name` and `owner` property (of type `Person`)
+- Expose a `pets` query which returns all pets and, for each pet, its owner, using **GraphQL loaders**
 
 </div>
 
 ---
+
+<div class="dense">
 
 - The query should return a JSON object:
 
@@ -214,6 +225,8 @@ curl --request POST \
 }
 ```
 
+</div>
+
 ---
 
 # Step 2: Solution
@@ -221,7 +234,6 @@ curl --request POST \
 <div class="two-columns gap-5">
 
 ```js
-// server.js
 const app = Fastify()
 
 const pets = [
@@ -245,13 +257,13 @@ const owners = {
 
 ```js
 const schema = `
-  type Human {
+  type Person {
     name: String!
   }
 
   type Pet {
     name: String!
-    owner: Human
+    owner: Person
   }
 
   type Query {
@@ -272,7 +284,7 @@ const resolvers = {
 
 ---
 
-<div class="middle-flex">
+# Step 2: Solution
 
 ```js
 const loaders = {
@@ -292,21 +304,15 @@ app.register(mercurius, {
 app.listen(3000)
 ```
 
-</div>
-
 ---
-
-<div class="middle-flex">
 
 # Step 2: Trying it out
 
-### In Graphiql:
+### In Graphiql
 
 You can navigate to graphql query editor on http://localhost:3000/graphiql
 
 <img style="width: 50%; text-align: center" src="/images/step-02.jpg">
-
-</div>
 
 ---
 
@@ -314,9 +320,13 @@ You can navigate to graphql query editor on http://localhost:3000/graphiql
 
 # Step 3: Executable schema 💻
 
+The `@graphql-tools/schema` package allows you to create a GraphQL.js [GraphQLSchema](https://graphql.org/graphql-js/type/) instance from GraphQL schema language using the function `makeExecutableSchema`.
+
+Besides common options such as `typeDefs` and `resolvers`, it supports more advanced options to customize the creation of the schema.
+
 - Create an executable schema using `typeDefs` and `resolvers`
 - Use the `@graphql-tools/schema` package to create the executable schema
-- Implement the same `add` functionality as in the earlier step
+- Implement the same "add" functionality as in the earlier step
 
 </div>
 
@@ -327,11 +337,9 @@ You can navigate to graphql query editor on http://localhost:3000/graphiql
 <div class="one-big-one-small-column gap-5">
 
 ```js
-'use strict'
-
-const Fastify = require('fastify')
-const mercurius = require('mercurius')
-const { makeExecutableSchema } = require('@graphql-tools/schema')
+import Fastify from 'fastify'
+import mercurius from 'mercurius'
+import { makeExecutableSchema } from '@graphql-tools/schema'
 
 const app = Fastify()
 
@@ -365,7 +373,7 @@ app.listen(3000)
 
 <div class="dense">
 
-# Step 4: SELECT N+1 problem 💻
+# Step 4: SELECT N+1 💻
 
 - Implement the same Pet and Owners functionality as before
 - Allows to query all pets and its owners by using GraphQL loaders
@@ -381,7 +389,6 @@ app.listen(3000)
 <div class="two-columns gap-5">
 
 ```js
-// lib/db.js
 export async function ownersByPetNames(db, petNames) {
   const { rows } = await db.query(
     SQL`
@@ -398,7 +405,6 @@ export async function ownersByPetNames(db, petNames) {
 ```
 
 ```js
-// graphql.js
 const loaders = {
   Pet: {
     async owner(queries, context) {
@@ -411,17 +417,21 @@ const loaders = {
 
 </div>
 
+💡 For the full code examples and db setup instructions, see the repository
+
 ---
 
 <div class="dense">
 
 # Step 5: Context 💻
 
+Context is an object populated at the server level which is made accessible to resolvers.
+
 - Create a `User` type with `name` and `locale` properties
 - Create an in-memory array of `User` with different locales
-- Create a query called `getUserByLocale` returning user with `en` locale
-- Sets the property `locale: 'en'` in the mercurius context
-- Response with JSON object:
+- Create a query called `getUserByLocale` returning the first user with `en` locale
+- Set the property `locale: 'en'` in the mercurius context
+- Respond with JSON object:
 
 ```json
 {
@@ -440,7 +450,6 @@ const loaders = {
 # Step 5: Solution
 
 ```js
-// server.js
 const app = Fastify()
 
 app.register(mercurius, {
@@ -453,7 +462,6 @@ app.register(mercurius, {
 ```
 
 ```js
-// graphql.js
 const resolvers = {
   Query: {
     getUserByLocale(_, __, context) {
@@ -469,19 +477,25 @@ const resolvers = {
 
 # Step 6: Hooks 💻
 
+Hooks are registered with the `fastify.graphql.addHook` method and allow you to listen to specific events in the GraphQL request/response lifecycle.
+
+By using hooks you can interact directly with the GraphQL lifecycle of Mercurius.
+
 - Create a query called `sum` which returns the sum of two numbers
 - Create and print logs for the following hooks:
   - `preParsing`
   - `preValidation`
   - `preExecution`
   - `onResolution`
-- Enrich the response with an error with the message 'foo' along with the data in the `preExecution` hook
+- Enrich the response with an error with the message "foo" in the `preExecution` hook
 
 </div>
 
 ---
 
-- Query should return:
+<div class="dense">
+
+- The query should return something similar to:
 
 ```json
 {
@@ -495,6 +509,8 @@ const resolvers = {
   ]
 }
 ```
+
+</div>
 
 ---
 
@@ -587,7 +603,9 @@ onResolution called
 
 ---
 
-Query should return:
+<div class="dense">
+
+- The query should return something similar to:
 
 ```json
 {
@@ -612,6 +630,8 @@ Query should return:
   ]
 }
 ```
+
+</div>
 
 ---
 
@@ -642,18 +662,21 @@ const resolvers = {
 
 # Step 8: Federation 💻
 
+A GraphQL server can act as a Gateway that composes the schemas of the underlying services into one federated schema and executes queries across the services. Every underlying service must be a GraphQL server that supports the federation.
+
 - Create a Federated GraphQL gateway which listens on port 4000
-- Run two GraphQL services on ports 4001 and 4002
+- Run and expose to the gateway two GraphQL services on ports 4001 and 4002
 - Service 1 has a `User` type and a `me` query which returns the user
 - Service 2 has a `Post` type and extends `User` with a `posts` array which are the posts of that user
-- Has an in-memory array of users of the type `User` and posts of type `Post`
-- Expose the two services from the gateway
+- Keep an in-memory array of users of the type `User` and posts of type `Post`
 
 </div>
 
 ---
 
-Query should return:
+<div class="dense">
+
+- The query should return something similar to:
 
 ```json
 {
@@ -676,6 +699,8 @@ Query should return:
   }
 }
 ```
+
+</div>
 
 ---
 
@@ -704,7 +729,6 @@ async function start() {
 ```
 
 ```js
-// service.js
 service.register(mercurius, {
   schema,
   resolvers,
@@ -724,10 +748,10 @@ service.register(mercurius, {
 
 <div class="dense">
 
-- Implement `add` functionality as before
+- Review the `add` functionality implemented before
 - The `add` function is supplied ith dynamic parameters<br/>`($x: Int!, $y: Int!)`
 - The inputs to the `add` function should be passed as query variables, e.g <br/>`{ "x": 3, "y": 5 }`
-- Query should return:
+- The query should return something similar to:
 
 ```json
 {
@@ -755,13 +779,13 @@ const resolvers = {
 }
 ```
 
----
+> 💡 The implementation is the same as before
 
-<div class="middle-flex">
+---
 
 # Step 9: Trying it out
 
-### In terminal:
+In terminal
 
 ```bash
 curl --request POST \
@@ -770,6 +794,8 @@ curl --request POST \
   --data '{"query":"query AddQuery ($x: Int!, $y: Int!) { add(x: $x, y: $y) }","variables":{"x":3,"y":5},"operationName":"AddQuery"}'
 ```
 
+Output
+
 ```json
 {
   "data": {
@@ -777,8 +803,6 @@ curl --request POST \
   }
 }
 ```
-
-</div>
 
 ---
 
@@ -798,7 +822,9 @@ Create a GraphQL server using mercurius which:
 
 ---
 
-Query should return:
+<div class="dense">
+
+- The query should return something similar to:
 
 ```json
 {
@@ -822,6 +848,8 @@ Query should return:
   }
 }
 ```
+
+</div>
 
 ---
 

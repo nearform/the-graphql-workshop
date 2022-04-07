@@ -1,6 +1,7 @@
 import Fastify from 'fastify'
 import mercurius from 'mercurius'
 import { makeExecutableSchema } from '@graphql-tools/schema'
+
 import { typeDefs, resolvers } from './graphql.js'
 
 const app = Fastify({
