@@ -22,7 +22,7 @@
     "test": "c8 tap --no-cov"
   },
   "devDependencies": {
-    "c8": "^7.11.2",
+    "c8": "^7.11.3",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
