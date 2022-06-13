@@ -8,7 +8,6 @@ A step by step guide to implement a GraphQL server with Fastify and Mercurius.
 ## Requirements
 
 - Node LTS
-- npm >=7
 - docker
 - docker-compose
 
