@@ -1,17 +1,5 @@
-import Fastify from 'fastify'
-import mercurius from 'mercurius'
-import { makeExecutableSchema } from '@graphql-tools/schema'
+import buildServer from './index.js'
 
-import { typeDefs, resolvers } from './graphql.js'
-
-const app = Fastify({
-  logger: {
-    prettyPrint: true
-  }
-})
-
-app.register(mercurius, {
-  schema: makeExecutableSchema({ typeDefs, resolvers })
-})
+const app = buildServer()
 
 app.listen({ port: 3000 })

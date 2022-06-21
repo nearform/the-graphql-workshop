@@ -1,26 +1,10 @@
 import { test } from 'tap'
-import fastify from 'fastify'
-import mercurius from 'mercurius'
-import { schema, resolvers, loaders } from '../graphql.js'
-
-const buildServer = async () => {
-  const server = fastify({
-    logger: false
-  })
-
-  server.register(mercurius, {
-    schema,
-    resolvers,
-    loaders
-  })
-
-  await server.ready()
-
-  return server
-}
+import buildServer from '../index.js'
 
 test('should return owner of the pet ', async t => {
-  const server = await buildServer()
+  const server = buildServer()
+
+  await server.ready()
 
   const query = `query {
       pets {

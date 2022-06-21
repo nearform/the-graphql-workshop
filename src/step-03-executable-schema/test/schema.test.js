@@ -1,25 +1,10 @@
-import t from 'tap'
-import fastify from 'fastify'
-import mercurius from 'mercurius'
-import { makeExecutableSchema } from '@graphql-tools/schema'
-import { typeDefs, resolvers } from '../graphql.js'
+import { test } from 'tap'
+import buildServer from '../index.js'
 
-const buildServer = async () => {
-  const server = fastify({
-    logger: false
-  })
-
-  server.register(mercurius, {
-    schema: makeExecutableSchema({ typeDefs, resolvers })
-  })
+test('should return sum of two numbers', async t => {
+  const server = buildServer()
 
   await server.ready()
-
-  return server
-}
-
-t.test('should return sum of two numbers', async t => {
-  const server = await buildServer()
 
   const query = `query { add(x: 3, y:5) }`
 

@@ -1,29 +1,14 @@
 import { test } from 'tap'
-import fastify from 'fastify'
-import mercurius from 'mercurius'
 import { parse, GraphQLSchema } from 'graphql'
-import { schema, resolvers } from '../graphql.js'
-
-const buildServer = async () => {
-  const server = fastify({
-    logger: false
-  })
-
-  server.register(mercurius, {
-    schema,
-    resolvers
-  })
-
-  await server.ready()
-
-  return server
-}
+import buildServer from '../index.js'
 
 const query = '{ add(x: 3, y: 5) }'
 
 test('hooks', async t => {
   t.plan(17)
-  const server = await buildServer()
+  const server = buildServer()
+
+  await server.ready()
 
   server.graphql.addHook(
     'preParsing',
@@ -77,5 +62,20 @@ test('hooks', async t => {
   t.equal(errors, undefined)
   t.strictSame(data, {
     add: 8
+  })
+})
+
+test('GET /', async t => {
+  const server = buildServer()
+  const response = await server.inject({
+    method: 'GET',
+    url: '/'
+  })
+
+  const { data, errors } = await response.json()
+
+  t.equal(errors, undefined)
+  t.strictSame(data, {
+    add: 4
   })
 })

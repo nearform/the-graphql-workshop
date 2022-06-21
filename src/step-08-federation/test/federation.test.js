@@ -1,50 +1,28 @@
 import { test } from 'tap'
-import Fastify from 'fastify'
-import mercurius from 'mercurius'
 import { createService } from '../services/service.js'
 import { service1 } from '../services/service1.js'
 import { service2 } from '../services/service2.js'
+import buildGateway from '../index.js'
 
 test('Runs in gateway mode with two services ', async t => {
-  const [userService, userServicePort] = await createService(
+  const userService = await createService(
     4001,
     service1.schema,
     service1.resolvers
   )
 
-  const [postService, postServicePort] = await createService(
+  const postService = await createService(
     4002,
     service2.schema,
     service2.resolvers
   )
 
-  const gateway = Fastify()
+  const gateway = buildGateway()
 
   t.teardown(async () => {
     await gateway.close()
     await postService.close()
     await userService.close()
-  })
-  gateway.register(mercurius, {
-    gateway: {
-      services: [
-        {
-          name: 'user',
-          url: `http://localhost:${userServicePort}/graphql`,
-          rewriteHeaders: headers => {
-            if (headers.authorization) {
-              return {
-                authorization: headers.authorization
-              }
-            }
-          }
-        },
-        {
-          name: 'post',
-          url: `http://localhost:${postServicePort}/graphql`
-        }
-      ]
-    }
   })
 
   const query = `

@@ -1,27 +1,9 @@
 'use strict'
 
-import Fastify from 'fastify'
-import mercurius from 'mercurius'
-import { schema, resolvers } from './graphql.js'
+import buildServer from './index.js'
 
 async function start() {
-  const app = Fastify({
-    logger: {
-      prettyPrint: true
-    }
-  })
-
-  app.get('/', async function (req, reply) {
-    const query = '{ add(x: 2, y: 2) }'
-
-    return reply.graphql(query)
-  })
-
-  app.register(mercurius, {
-    schema,
-    resolvers,
-    graphiql: true
-  })
+  const app = buildServer()
 
   await app.ready()
 

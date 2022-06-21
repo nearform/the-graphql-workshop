@@ -12,7 +12,8 @@ const createService = async (port, schema, resolvers) => {
     jit: 1
   })
   await service.listen({ port })
-  return [service, service.server.address().port]
+
+  return service
 }
 
 export { createService }
