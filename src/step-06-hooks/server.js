@@ -45,7 +45,7 @@ async function start() {
     app.log.info('onResolution called')
   })
 
-  app.listen(3000)
+  app.listen({ port: 3000 })
 }
 
 start()

@@ -160,7 +160,7 @@ app.register(mercurius, {
   graphiql: true
 })
 
-app.listen(3000)
+app.listen({ port: 3000 })
 ```
 
 ---
@@ -301,7 +301,7 @@ app.register(mercurius, {
   loaders
 })
 
-app.listen(3000)
+app.listen({ port: 3000 })
 ```
 
 ---
@@ -364,7 +364,7 @@ app.register(mercurius, {
   })
 })
 
-app.listen(3000)
+app.listen({ port: 3000 })
 ```
 
 </div>
@@ -724,7 +724,7 @@ async function start() {
       ]
     }
   })
-  await gateway.listen(4000)
+  await gateway.listen({ port: 4000 })
 }
 ```
 
