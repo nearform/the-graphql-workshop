@@ -11,7 +11,7 @@ const createService = async (port, schema, resolvers) => {
     graphiql: true,
     jit: 1
   })
-  await service.listen(port)
+  await service.listen({ port })
   return [service, service.server.address().port]
 }
 

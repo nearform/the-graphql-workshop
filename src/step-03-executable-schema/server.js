@@ -14,4 +14,4 @@ app.register(mercurius, {
   schema: makeExecutableSchema({ typeDefs, resolvers })
 })
 
-app.listen(3000)
+app.listen({ port: 3000 })
