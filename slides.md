@@ -352,16 +352,6 @@ const loaders = {
 
 export { schema, resolvers, loaders }
 ```
-
-```js
-// server.js
-import buildServer from './index.js'
-
-const app = buildServer()
-
-app.listen({ port: 3000 })
-```
-
 ---
 
 # Step 2: Trying it out
@@ -395,12 +385,26 @@ Besides common options such as `typeDefs` and `resolvers`, it supports more adva
 <div class="one-big-one-small-column gap-5">
 
 ```js
+// index.js
 import Fastify from 'fastify'
 import mercurius from 'mercurius'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 
-const app = Fastify()
+import { typeDefs, resolvers } from './graphql.js'
 
+export default function buildServer() {
+  const server = Fastify(...)
+
+  server.register(mercurius, {
+    schema: makeExecutableSchema({ typeDefs, resolvers })
+  })
+
+  return server
+}
+```
+
+```js
+// graphql.js
 const typeDefs = `
   type Query {
     add(x: Int, y: Int): Int
@@ -412,17 +416,8 @@ const resolvers = {
     add: async (_, { x, y }) => x + y
   }
 }
-```
 
-```js
-app.register(mercurius, {
-  schema: makeExecutableSchema({
-    typeDefs,
-    resolvers
-  })
-})
-
-app.listen({ port: 3000 })
+export { typeDefs, resolvers }
 ```
 
 </div>
@@ -466,8 +461,8 @@ export async function ownersByPetNames(db, petNames) {
 const loaders = {
   Pet: {
     async owner(queries, context) {
-      const pets = queries.map(({ obj }) => obj.name)
-      return ownersByPetNames(context.app.pg, pets)
+      const petNames = queries.map(({ obj }) => obj.name)
+      return ownersByPetNames(context.app.pg, petNames)
     }
   }
 }
@@ -508,9 +503,9 @@ Context is an object populated at the server level which is made accessible to r
 # Step 5: Solution
 
 ```js
-const app = Fastify()
+const server = Fastify(...)
 
-app.register(mercurius, {
+server.register(mercurius, {
   schema,
   resolvers,
   context: () => ({
@@ -762,43 +757,82 @@ A GraphQL server can act as a Gateway that composes the schemas of the underlyin
 
 ---
 
-# Step 8: Solution
+# Step 8: Solution / 1
 
-<div class="one-big-one-small-column gap-5">
+<div class="two-columns gap-5">
 
 ```js
-async function start() {
-  await createService(4001, service1.schema, service1.resolvers)
-  await createService(4002, service2.schema, service2.resolvers)
+// server.js
+...
+await createService(
+  4001,
+  service1.schema,
+  service1.resolvers
+)
+await createService(
+  4002,
+  service2.schema,
+  service2.resolvers
+)
 
-  const gateway = Fastify({ logger: { prettyPrint: true } })
+const gateway = buildGateway()
+await gateway.listen({ port: 4000 })
+...
+```
+
+```js
+// index.js
+export default function buildGateway() {
+  const gateway = Fastify(...)
   gateway.register(mercurius, {
     graphiql: true,
     jit: 1,
     gateway: {
       services: [
-        { name: 'user', url: 'http://localhost:4001/graphql' },
-        { name: 'post', url: 'http://localhost:4002/graphql' }
+        {
+          name: 'user',
+          url: 'http://localhost:4001/graphql'
+        },
+        {
+          name: 'post',
+          url: 'http://localhost:4002/graphql'
+        }
       ]
     }
   })
-  await gateway.listen({ port: 4000 })
+
+  return gateway
 }
 ```
 
+</div>
+
+---
+
+# Step 8: Solution / 2
+
 ```js
-service.register(mercurius, {
-  schema,
-  resolvers,
-  federationMetadata: true,
-  graphiql: true,
-  jit: 1
-})
+// services/service.js
+const createService = async (port, schema, resolvers) => {
+  const service = Fastify(...)
+
+  service.register(mercurius, {
+    schema,
+    resolvers,
+    federationMetadata: true,
+    graphiql: true,
+    jit: 1
+  })
+
+  await service.listen({ port })
+  
+  return service
+}
 ```
 
-> 💡 see service1 and service2 implementations in the repo
 
-</div>
+
+> 💡 see service1 and service2 implementations in the repo
 
 ---
 
