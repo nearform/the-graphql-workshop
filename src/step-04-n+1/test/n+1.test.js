@@ -9,7 +9,7 @@ const buildServer = async () => {
     logger: false
   })
 
-  server.register(import('fastify-postgres'), {
+  server.register(import('@fastify/postgres'), {
     connectionString: config.PG_CONNECTION_STRING
   })
 
