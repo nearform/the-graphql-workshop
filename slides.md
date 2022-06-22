@@ -137,11 +137,39 @@ Create a GraphQL server which exposes an `add` function to compute the sum of tw
 
 ---
 
-# Step 1: Solution
+# Step 1: Solution / 1
 
 ```js
-const app = Fastify()
+// index.js
+import Fastify from 'fastify'
+import mercurius from 'mercurius'
+import { schema, resolvers } from './graphql.js'
 
+export default function buildServer() {
+  const server = Fastify({
+    logger: {
+      transport: {
+        target: 'pino-pretty'
+      }
+    }
+  })
+
+  server.register(mercurius, {
+    schema,
+    resolvers,
+    graphiql: true
+  })
+
+  return server
+}
+```
+
+---
+
+# Step 1: Solution / 2
+
+```js
+// graphql.js
 const schema = `
   type Query {
     add(x: Int, y: Int): Int
@@ -154,11 +182,14 @@ const resolvers = {
   }
 }
 
-app.register(mercurius, {
-  schema,
-  resolvers,
-  graphiql: true
-})
+export { schema, resolvers }
+```
+
+```js
+// server.js
+import buildServer from './index.js'
+
+const app = buildServer()
 
 app.listen({ port: 3000 })
 ```
@@ -229,13 +260,36 @@ Moreover, it can also cache the results, so that other parts of the GraphQL do n
 
 ---
 
-# Step 2: Solution
+# Step 2: Solution / 1
+
+```js
+// index.js
+import Fastify from 'fastify'
+import mercurius from 'mercurius'
+import { schema, resolvers, loaders } from './graphql.js'
+
+export default function buildServer() {
+  const server = Fastify(...)
+
+  server.register(mercurius, {
+    schema,
+    resolvers,
+    loaders,
+    graphiql: true
+  })
+
+  return server
+}
+```
+
+---
+
+# Step 2: Solution / 2
 
 <div class="two-columns gap-5">
 
 ```js
-const app = Fastify()
-
+// graphql.js
 const pets = [
   {
     name: 'Max'
@@ -284,22 +338,26 @@ const resolvers = {
 
 ---
 
-# Step 2: Solution
+# Step 2: Solution / 3
 
 ```js
+// graphql.js (cont.)
 const loaders = {
   Pet: {
     async owner(queries) {
-      return queries.map(({ obj }) => owners[obj.name])
+      return queries.map(({ obj: pet }) => owners[pet.name])
     }
   }
 }
 
-app.register(mercurius, {
-  schema,
-  resolvers,
-  loaders
-})
+export { schema, resolvers, loaders }
+```
+
+```js
+// server.js
+import buildServer from './index.js'
+
+const app = buildServer()
 
 app.listen({ port: 3000 })
 ```
