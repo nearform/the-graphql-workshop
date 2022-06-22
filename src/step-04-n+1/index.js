@@ -6,7 +6,7 @@ import { schema, resolvers, loaders } from './graphql.js'
 export default function buildServer() {
   const server = Fastify(config)
 
-  server.register(import('fastify-postgres'), {
+  server.register(import('@fastify/postgres'), {
     connectionString: config.PG_CONNECTION_STRING
   })
 
