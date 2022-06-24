@@ -1,23 +1,10 @@
 import { test } from 'tap'
-import fastify from 'fastify'
-import mercurius from 'mercurius'
-import { schema, resolvers } from '../graphql.js'
-
-const buildServer = async () => {
-  const server = fastify({
-    logger: false
-  })
-
-  server.register(mercurius, {
-    schema,
-    resolvers
-  })
-
-  return server
-}
+import buildServer from '../index.js'
 
 test('should throw error with proper message and code if user not found', async t => {
-  const server = await buildServer()
+  const server = buildServer()
+
+  await server.ready()
 
   const query = `query {
     findUser(id: "5") {
@@ -56,7 +43,7 @@ test('should throw error with proper message and code if user not found', async 
 })
 
 test('should return user', async t => {
-  const server = await buildServer()
+  const server = buildServer()
 
   const query = `query {
     findUser(id: "1") {

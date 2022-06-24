@@ -1,26 +1,10 @@
-import t from 'tap'
-import fastify from 'fastify'
-import mercurius from 'mercurius'
-import { schema, resolvers } from '../graphql.js'
+import { test } from 'tap'
+import buildServer from '../index.js'
 
-const buildServer = async () => {
-  const server = fastify({
-    logger: false
-  })
+test('should retrieve correct value from context', async t => {
+  const server = buildServer()
 
-  server.register(mercurius, {
-    schema,
-    resolvers,
-    context: () => ({
-      locale: 'en'
-    })
-  })
-
-  return server
-}
-
-t.test('should retrieve correct value from context', async t => {
-  const server = await buildServer()
+  await server.ready()
 
   const query = `query {
       getUserByLocale {

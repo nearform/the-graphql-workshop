@@ -1,25 +1,10 @@
 import { test } from 'tap'
-import fastify from 'fastify'
-import mercurius from 'mercurius'
-import { schema, resolvers } from '../graphql.js'
-
-const buildServer = async () => {
-  const server = fastify({
-    logger: false
-  })
-
-  server.register(mercurius, {
-    schema,
-    resolvers
-  })
-
-  await server.ready()
-
-  return server
-}
+import buildServer from '../index.js'
 
 test('should return sum of two numbers', async t => {
-  const server = await buildServer()
+  const server = buildServer()
+
+  await server.ready()
 
   const query = `query { add(x: 3, y:5) }`
 

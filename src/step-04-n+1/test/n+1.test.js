@@ -1,29 +1,10 @@
-import t from 'tap'
-import fastify from 'fastify'
-import mercurius from 'mercurius'
-import { schema, resolvers, loaders } from '../graphql.js'
-import config from '../lib/config.js'
+import { test } from 'tap'
+import buildServer from '../index.js'
 
-const buildServer = async () => {
-  const server = fastify({
-    logger: false
-  })
+test('should return owner of the pet', async t => {
+  const server = buildServer()
 
-  server.register(import('@fastify/postgres'), {
-    connectionString: config.PG_CONNECTION_STRING
-  })
-
-  server.register(mercurius, {
-    schema,
-    resolvers,
-    loaders
-  })
-
-  return server
-}
-
-t.test('should return owner of the pet ', async t => {
-  const server = await buildServer()
+  await server.ready()
 
   const query = `query {
       pets {
