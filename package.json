@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@fastify/postgres": "^5.0.0",
-    "@graphql-tools/schema": "^8.3.14",
+    "@graphql-tools/schema": "^8.4.0",
     "@nearform/sql": "^1.9.2",
     "@slidev/cli": "^0.33.1",
     "@slidev/theme-default": "^0.21.2",
