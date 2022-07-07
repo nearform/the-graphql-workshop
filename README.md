@@ -5,6 +5,10 @@
 
 A step by step guide to implement a GraphQL server with Fastify and Mercurius.
 
+## Slideshow Presentation
+
+[The GraphQL Workshop Slides](https://nearform.github.io/the-graphql-workshop)
+
 ## Requirements
 
 - Node LTS
@@ -33,4 +37,3 @@ A step by step guide to implement a GraphQL server with Fastify and Mercurius.
 ## Presenting
 
 - `npm start`
-
