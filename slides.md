@@ -846,7 +846,7 @@ const createService = async (port, schema, resolvers) => {
 <div class="dense">
 
 - Review the `add` functionality implemented before
-- The `add` function is supplied ith dynamic parameters<br/>`($x: Int!, $y: Int!)`
+- The `add` function is supplied with dynamic parameters<br/>`($x: Int!, $y: Int!)`
 - The inputs to the `add` function should be passed as query variables, e.g <br/>`{ "x": 3, "y": 5 }`
 - The query should return something similar to:
 
