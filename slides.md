@@ -35,11 +35,16 @@ lineNumbers: false
 
 # Prerequisites
 
-This workshop requires an understanding of the **Fastify** framework.
+<div class="dense">
 
-We recommend a basic knowledge of the Fastify plugin system which can be acquired by following a workshop similar to this one, focused on Fastify.
+- This workshop requires an understanding of the **Fastify** framework.
 
-https://github.com/nearform/the-fastify-workshop
+  - We recommend a basic knowledge of the Fastify plugin system which can be acquired by following a workshop similar to this one, focused on Fastify: https://github.com/nearform/the-fastify-workshop
+
+- A basic grasp on how to write **GraphQL queries** so you can check your working via curl or [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) (a browser based GraphQL IDE). 
+  - We recommend the [GraphQL queries documentation](https://graphql.org/learn/queries/)
+
+</div>
 
 ---
 
