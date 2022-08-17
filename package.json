@@ -31,7 +31,7 @@
     "tap": "^16.3.0"
   },
   "dependencies": {
-    "@fastify/postgres": "^5.0.0",
+    "@fastify/postgres": "^5.1.0",
     "@graphql-tools/schema": "^9.0.1",
     "@nearform/sql": "^1.9.2",
     "@slidev/cli": "^0.35.5",
