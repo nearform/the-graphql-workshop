@@ -38,7 +38,7 @@
     "@slidev/theme-default": "^0.21.2",
     "@vueuse/shared": "^9.5.0",
     "desm": "^1.3.0",
-    "env-schema": "^5.1.0",
+    "env-schema": "^5.1.1",
     "fastify": "^4.9.2",
     "fluent-json-schema": "^4.0.0",
     "graphql": "^16.6.0",
