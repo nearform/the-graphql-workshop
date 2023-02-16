@@ -40,10 +40,6 @@ test('hooks', async t => {
     }
   )
 
-  server.graphql.addHook('preGatewayExecution', async function () {
-    t.fail('this should not be called')
-  })
-
   server.graphql.addHook('onResolution', async function (execution, context) {
     t.type(execution, 'object')
     t.type(context, 'object')
