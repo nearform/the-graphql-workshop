@@ -41,7 +41,7 @@ lineNumbers: false
 
   - We recommend a basic knowledge of the Fastify plugin system which can be acquired by following a workshop similar to this one, focused on Fastify: https://github.com/nearform/the-fastify-workshop
 
-- A basic grasp on how to write **GraphQL queries** so you can check your working via curl or [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) (a browser based GraphQL IDE). 
+- A basic grasp on how to write **GraphQL queries** so you can check your working via curl or [graphiql](https://graphql-dotnet.github.io/docs/getting-started/graphiql/) (a browser based GraphQL IDE).
   - We recommend the [GraphQL queries documentation](https://graphql.org/learn/queries/)
 
 </div>
@@ -357,6 +357,7 @@ const loaders = {
 
 export { schema, resolvers, loaders }
 ```
+
 ---
 
 # Step 2: Trying it out
@@ -724,8 +725,24 @@ A GraphQL server can act as a Gateway that composes the schemas of the underlyin
 
 - Create a Federated GraphQL gateway which listens on port 4000
 - Run and expose to the gateway two GraphQL services on ports 4001 and 4002
+- In order to use gateway, you should import the following lib:
+
+```js
+import mercuriusGateway from '@mercuriusjs/gateway'
+...
+gateway.register(mercuriusGateway, {...});
+```
+
 - Service 1 has a `User` type and a `me` query which returns the user
 - Service 2 has a `Post` type and extends `User` with a `posts` array which are the posts of that user
+- Use the import below for registering the service with federation enabled:
+
+```js
+import { mercuriusFederationPlugin } from '@mercuriusjs/federation'
+
+service.register(mercuriusFederationPlugin, {...}
+```
+
 - Keep an in-memory array of users of the type `User` and posts of type `Post`
 
 </div>
@@ -787,9 +804,19 @@ await gateway.listen({ port: 4000 })
 
 ```js
 // index.js
+import Fastify from 'fastify'
+import mercuriusGateway from '@mercuriusjs/gateway'
+
 export default function buildGateway() {
-  const gateway = Fastify(...)
-  gateway.register(mercurius, {
+  const gateway = Fastify({
+    logger: {
+      transport: {
+        target: 'pino-pretty'
+      }
+    }
+  })
+
+  gateway.register(mercuriusGateway, {
     graphiql: true,
     jit: 1,
     gateway: {
@@ -818,24 +845,25 @@ export default function buildGateway() {
 
 ```js
 // services/service.js
-const createService = async (port, schema, resolvers) => {
-  const service = Fastify(...)
+import Fastify from 'fastify'
+import { mercuriusFederationPlugin } from '@mercuriusjs/federation'
 
-  service.register(mercurius, {
+const createService = async (port, schema, resolvers) => {
+  const service = Fastify()
+
+  service.register(mercuriusFederationPlugin, {
     schema,
     resolvers,
-    federationMetadata: true,
     graphiql: true,
     jit: 1
   })
-
   await service.listen({ port })
-  
+
   return service
 }
+
+export { createService }
 ```
-
-
 
 > 💡 see service1 and service2 implementations in the repo
 
