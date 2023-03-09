@@ -8,7 +8,7 @@ Server is running on port 3000
 
 ## Running the example
 
-Send a graphQL request with the following query:
+Send a graphQL request to http://localhost:3000/graphql with the following query:
 
 ```js
 {

@@ -895,7 +895,7 @@ export { createService }
 ```js
 const schema = `
   type Query {
-    add(x: Int, y: Int): Int
+    add(x: Int!, y: Int!): Int
   }
 `
 
