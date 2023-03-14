@@ -46,7 +46,7 @@
     "graphql": "^16.6.0",
     "mercurius": "^12.2.0",
     "pg": "^8.10.0",
-    "pino-pretty": "^9.4.0",
+    "pino-pretty": "^10.0.0",
     "postgrator-cli": "^6.0.1",
     "slidev-theme-nearform": "^1.5.1"
   }
