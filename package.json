@@ -48,6 +48,6 @@
     "pg": "^8.10.0",
     "pino-pretty": "^10.0.0",
     "postgrator-cli": "^6.0.1",
-    "slidev-theme-nearform": "^1.5.1"
+    "slidev-theme-nearform": "^1.5.2"
   }
 }
