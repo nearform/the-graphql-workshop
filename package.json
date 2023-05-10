@@ -35,7 +35,7 @@
     "@graphql-tools/schema": "^9.0.19",
     "@mercuriusjs/federation": "^2.0.0",
     "@mercuriusjs/gateway": "^1.2.0",
-    "@nearform/sql": "^1.10.3",
+    "@nearform/sql": "^1.10.4",
     "@slidev/cli": "^0.40.16",
     "@slidev/theme-default": "^0.21.2",
     "@vueuse/shared": "^10.1.2",
