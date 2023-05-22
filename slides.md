@@ -664,6 +664,8 @@ onResolution called
 
 <div class="dense">
 
+# Step 7: Error handling 💻
+
 - The query should return something similar to:
 
 ```json
@@ -675,10 +677,7 @@ onResolution called
     {
       "message": "Invalid User ID",
       "locations": [
-        {
-          "line": 2,
-          "column": 3
-        }
+        { "line": 2, "column": 3 }
       ],
       "path": ["findUser"],
       "extensions": {
@@ -735,6 +734,15 @@ gateway.register(mercuriusGateway, {...});
 
 - Service 1 has a `User` type and a `me` query which returns the user
 - Service 2 has a `Post` type and extends `User` with a `posts` array which are the posts of that user
+
+</div>
+
+---
+
+<div class="dense">
+
+# Step 8: Federation 💻
+
 - Use the import below for registering the service with federation enabled:
 
 ```js
@@ -744,13 +752,6 @@ service.register(mercuriusFederationPlugin, {...}
 ```
 
 - Keep an in-memory array of users of the type `User` and posts of type `Post`
-
-</div>
-
----
-
-<div class="dense">
-
 - The query should return something similar to:
 
 ```json
@@ -759,16 +760,8 @@ service.register(mercuriusFederationPlugin, {...}
     "me": {
       "name": "John",
       "posts": [
-        {
-          "id": "p1",
-          "title": "Post 1",
-          "content": "Content 1"
-        },
-        {
-          "id": "p3",
-          "title": "Post 3",
-          "content": "Content 3"
-        }
+        { "id": "p1", "title": "Post 1", "content": "Content 1" },
+        { "id": "p3", "title": "Post 3", "content": "Content 3" }
       ]
     }
   }
@@ -780,8 +773,6 @@ service.register(mercuriusFederationPlugin, {...}
 ---
 
 # Step 8: Solution / 1
-
-<div class="two-columns gap-5">
 
 ```js
 // server.js
@@ -802,6 +793,11 @@ await gateway.listen({ port: 4000 })
 ...
 ```
 
+---
+
+# Step 8: Solution / 2
+
+
 ```js
 // index.js
 import Fastify from 'fastify'
@@ -809,11 +805,7 @@ import mercuriusGateway from '@mercuriusjs/gateway'
 
 export default function buildGateway() {
   const gateway = Fastify({
-    logger: {
-      transport: {
-        target: 'pino-pretty'
-      }
-    }
+    logger: { transport: { target: 'pino-pretty' } }
   })
 
   gateway.register(mercuriusGateway, {
@@ -821,14 +813,8 @@ export default function buildGateway() {
     jit: 1,
     gateway: {
       services: [
-        {
-          name: 'user',
-          url: 'http://localhost:4001/graphql'
-        },
-        {
-          name: 'post',
-          url: 'http://localhost:4002/graphql'
-        }
+        { name: 'user', url: 'http://localhost:4001/graphql' },
+        { name: 'post', url: 'http://localhost:4002/graphql' }
       ]
     }
   })
@@ -837,11 +823,9 @@ export default function buildGateway() {
 }
 ```
 
-</div>
-
 ---
 
-# Step 8: Solution / 2
+# Step 8: Solution / 3
 
 ```js
 // services/service.js
@@ -1029,20 +1013,10 @@ curl --request POST \
 {
   "data": {
     "getNoviceUsers": [
-      {
-        "id": 1,
-        "name": "John Doe",
-        "age": 32,
-        "level": "novice"
-      }
+      { "id": 1, "name": "John Doe", "age": 32, "level": "novice" }
     ],
     "getAdvancedUsers": [
-      {
-        "id": 2,
-        "name": "Jane Doe",
-        "age": 28,
-        "level": "advanced"
-      }
+      { "id": 2, "name": "Jane Doe", "age": 28, "level": "advanced" }
     ]
   }
 }
