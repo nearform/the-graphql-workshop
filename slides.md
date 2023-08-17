@@ -456,6 +456,8 @@ export async function ownersByPetNames(db, petNames) {
       INNER JOIN pets
         ON pets.owner = owners.id
         AND pets.name = ANY(${petNames})
+      ORDER BY
+        ARRAY_POSITION((${petNames}), pets.name)`
     `
   )
 
@@ -676,9 +678,7 @@ onResolution called
   "errors": [
     {
       "message": "Invalid User ID",
-      "locations": [
-        { "line": 2, "column": 3 }
-      ],
+      "locations": [{ "line": 2, "column": 3 }],
       "path": ["findUser"],
       "extensions": {
         "code": "USER_ID_INVALID",
@@ -796,7 +796,6 @@ await gateway.listen({ port: 4000 })
 ---
 
 # Step 8: Solution / 2
-
 
 ```js
 // index.js
