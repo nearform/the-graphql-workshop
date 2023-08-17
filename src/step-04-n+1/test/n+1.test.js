@@ -32,13 +32,13 @@ test('should return owner of the pet', async t => {
       {
         name: 'Max',
         owner: {
-          name: 'Jennifer'
+          name: 'Simon'
         }
       },
       {
         name: 'Charlie',
         owner: {
-          name: 'Simon'
+          name: 'Jennifer'
         }
       }
     ]
