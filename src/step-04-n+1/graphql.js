@@ -27,7 +27,10 @@ const loaders = {
   Pet: {
     async owner(queries, context) {
       const petNames = queries.map(({ obj }) => obj.name)
-      return ownersByPetNames(context.app.pg, petNames)
+      const owners = await ownersByPetNames(context.app.pg, petNames)
+      return queries.map(({ obj: pet }) =>
+        owners.find(owner => owner.id === pet.owner)
+      )
     }
   }
 }

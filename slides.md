@@ -468,7 +468,10 @@ const loaders = {
   Pet: {
     async owner(queries, context) {
       const petNames = queries.map(({ obj }) => obj.name)
-      return ownersByPetNames(context.app.pg, petNames)
+      const owners = await ownersByPetNames(context.app.pg, petNames)
+      return queries.map(({ obj: pet }) =>
+        owners.find(owner => owner.id === pet.owner)
+      )
     }
   }
 }
@@ -676,9 +679,7 @@ onResolution called
   "errors": [
     {
       "message": "Invalid User ID",
-      "locations": [
-        { "line": 2, "column": 3 }
-      ],
+      "locations": [{ "line": 2, "column": 3 }],
       "path": ["findUser"],
       "extensions": {
         "code": "USER_ID_INVALID",
@@ -796,7 +797,6 @@ await gateway.listen({ port: 4000 })
 ---
 
 # Step 8: Solution / 2
-
 
 ```js
 // index.js
