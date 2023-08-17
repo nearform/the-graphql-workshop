@@ -456,6 +456,8 @@ export async function ownersByPetNames(db, petNames) {
       INNER JOIN pets
         ON pets.owner = owners.id
         AND pets.name = ANY(${petNames})
+      ORDER BY
+        ARRAY_POSITION((${petNames}), pets.name)`
     `
   )
 
@@ -468,10 +470,7 @@ const loaders = {
   Pet: {
     async owner(queries, context) {
       const petNames = queries.map(({ obj }) => obj.name)
-      const owners = await ownersByPetNames(context.app.pg, petNames)
-      return queries.map(({ obj: pet }) =>
-        owners.find(owner => owner.id === pet.owner)
-      )
+      return ownersByPetNames(context.app.pg, petNames)
     }
   }
 }
