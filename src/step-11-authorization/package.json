@@ -1,0 +1,13 @@
+{
+  "name": "authorization",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "c8 tap --no-cov"
+  },
+  "dependencies": {
+    "fastify": "^4.21.0",
+    "mercurius": "^13.1.0",
+    "mercurius-auth": "^4.0.0"
+  }
+}

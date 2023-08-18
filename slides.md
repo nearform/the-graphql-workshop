@@ -1025,6 +1025,244 @@ curl --request POST \
 
 ---
 
+<div class="dense">
+
+# Step 11: Authorization
+
+In RESTful APIs, a common use case is to restrict access to certain endpoints unless the user has permission to access them. Likewise in GraphQL, you can restrict access to certain fields unless the user has permission to access them.
+
+In this step, we will carry on from Step 8 (Federation) and modify the `me` query so that it only returns the current user and their posts, and no one else's.
+
+- In the service containing the `me` query, update the schema to define a new directive
+- Define a `role` argument for the directive that can be either `VERIFIED` or `ADMIN`
+- Annotate the `me` query with the new directive and pass in an argument of `role: VERIFIED`
+- Annotate the `author` field with the new directive and pass in an argument of `role: ADMIN`
+</div>
+
+---
+
+<div class="dense">
+
+# Step 11: Authorization
+
+- Install the `mercurius-auth` package and register it with the gateway
+- Specify the following properties in the options object for the plugin:
+  - `authDirective` - the name of the directive you just defined
+  - `authContext` - logic to extract the user's role. For simplicity's sake, we will extract the user's role from the `X-Role` request header. In a real-world application, you may pass a JSON Web Token (JWT) via the headers, verify and decode it to extract the user's ID, role(s), and permission(s).
+  - `applyPolicy` - logic that determines, given the user's role, whether the server should allow the client to access this field or object?
+
+</div>
+
+---
+
+# Step 11: Solution / 1
+
+<div class="middle-flex">
+
+```js {1,4-11,14}
+// services/service1.js
+const service1 = {
+  schema: `
+  enum Role {
+    ADMIN
+    VERIFIED
+  }
+
+  directive @auth(
+    role: Role
+  ) on OBJECT | FIELD_DEFINITION
+
+  extend type Query {
+    me: User @auth(role: VERIFIED)
+  }
+  
+  type User @key(fields: "id") {
+    id: ID!
+    name: String!
+  }
+  `,
+  ...
+}
+```
+
+</div>
+
+
+---
+
+# Step 11: Solution / 2
+
+<div class="middle-flex">
+
+```js {1,4-9,15}
+// services/service2.js
+const service2 = {
+  schema: `
+  enum Role {
+    ADMIN
+    VERIFIED
+  }
+
+  directive @auth(role: Role) on OBJECT | FIELD_DEFINITION
+
+  type Post @key(fields: "id") {
+    id: ID!
+    title: String
+    content: String
+    author: User @auth(role: ADMIN)
+  }
+
+  type User @key(fields: "id") @extends {
+    id: ID! @external
+    name: String @external
+    posts: [Post]
+  }`,
+  ...
+}
+```
+
+</div>
+
+---
+
+# Step 11: Solution / 3
+
+<div class="middle-flex">
+
+```js
+// index.js
+import mercuriusAuth from 'mercurius-auth';
+...
+gateway.register(mercuriusAuth, {
+  authContext (context) {
+    return {
+      role: context.reply.request.headers['x-role']
+    }
+  },
+  async applyPolicy (authDirectiveAST, parent, args, context, info) {
+    const directiveRole = authDirectiveAST.arguments
+      .find(arg => arg.name.value === 'role')
+      .value.value;
+
+    return context.auth.role === directiveRole || context.auth.role === 'ADMIN';
+  },
+  authDirective: 'auth'
+})
+
+```
+
+</div>
+
+---
+
+<div class="middle-flex">
+
+# Step 11: Trying it out / No header
+
+### In terminal
+
+```bash
+curl --request POST \
+  --url http://localhost:4000/graphql \
+  --header 'Content-Type: application/json' \
+  --data '{"query":"{ me { name posts { title author { name }}}}"}'
+```
+
+```json
+{
+  "data": { "me": null },
+  "errors": [{
+    "message": "Failed auth policy check on me",
+    "locations": [{
+      "line": 1,
+      "column": 3
+    }],
+    "path": [ "me" ]
+  }]
+}
+```
+
+</div>
+
+---
+
+<div class="middle-flex">
+
+# Step 11: Trying it out / VERIFIED
+
+### In terminal
+
+```bash
+curl --request POST \
+  --url http://localhost:4000/graphql \
+  --header 'Content-Type: application/json' \
+  --header 'X-Role: VERIFIED' \
+  --data '{"query":"{ me { name posts { title author { name }}}}"}'
+```
+
+```json
+{
+  "data": {
+    "me": {
+      "name": "John",
+      "posts": [{
+        "title": "Post 1",
+        "author": null
+      }, {
+        "title": "Post 3",
+        "author": null
+      }]
+    }
+  },
+  "errors": [{
+      "message": "Failed auth policy check on author",
+      "locations": [ ... ],
+      "path": [ ... ]
+    },
+    ...
+  ]
+}
+```
+
+</div>
+
+---
+
+<div class="middle-flex">
+
+# Step 11: Trying it out / ADMIN
+
+### In terminal
+
+```bash
+curl --request POST \
+  --url http://localhost:4000/graphql \
+  --header 'Content-Type: application/json' \
+  --header 'X-Role: ADMIN' \
+  --data '{"query":"{ me { name posts { title author { name }}}}"}'
+```
+
+```json
+{
+  "data": {
+    "me": {
+      "name": "John",
+      "posts": [{
+        "title": "Post 1",
+        "author": {  "name": "John" }
+      }, {
+        "title": "Post 3",
+        "author": { "name": "John" }
+      }]
+    }
+  }
+}
+```
+
+</div>
+
+---
+
 <div class="middle-flex">
 
 # 🏆 Write Tests 🏆
