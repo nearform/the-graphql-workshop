@@ -41,7 +41,7 @@
     "fluent-json-schema": "^4.1.1",
     "graphql": "^16.8.0",
     "mercurius": "^13.1.0",
-    "pg": "^8.11.2",
+    "pg": "^8.11.3",
     "pino-pretty": "^10.2.0",
     "postgrator-cli": "^7.0.0",
     "slidev-theme-nearform": "^1.5.5"
