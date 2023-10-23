@@ -27,7 +27,7 @@
     "tap": "^16.3.8"
   },
   "dependencies": {
-    "@fastify/postgres": "^5.2.0",
+    "@fastify/postgres": "^5.2.2",
     "@graphql-tools/schema": "^10.0.0",
     "@mercuriusjs/federation": "^2.0.0",
     "@mercuriusjs/gateway": "^2.0.0",
