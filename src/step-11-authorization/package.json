@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "fastify": "^4.24.3",
-    "mercurius": "^13.1.0",
+    "mercurius": "^13.2.2",
     "mercurius-auth": "^4.0.0"
   }
 }
