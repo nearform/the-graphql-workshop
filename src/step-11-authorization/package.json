@@ -6,7 +6,7 @@
     "test": "c8 tap --no-cov"
   },
   "dependencies": {
-    "fastify": "^4.24.3",
+    "fastify": "^4.25.1",
     "mercurius": "^13.3.1",
     "mercurius-auth": "^5.0.0"
   }
