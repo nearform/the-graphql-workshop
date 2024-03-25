@@ -40,7 +40,7 @@
     "fastify": "^4.26.2",
     "fluent-json-schema": "^4.2.1",
     "graphql": "^16.8.1",
-    "mercurius": "^13.4.0",
+    "mercurius": "^14.0.0",
     "pg": "^8.11.3",
     "pino-pretty": "^10.3.1",
     "postgrator-cli": "^7.0.0",
