@@ -30,7 +30,7 @@
     "@fastify/postgres": "^5.2.2",
     "@graphql-tools/schema": "^10.0.3",
     "@mercuriusjs/federation": "^2.0.0",
-    "@mercuriusjs/gateway": "^2.2.0",
+    "@mercuriusjs/gateway": "^3.0.0",
     "@nearform/sql": "^1.10.5",
     "@slidev/cli": "^0.48.7",
     "@slidev/theme-default": "^0.25.0",
