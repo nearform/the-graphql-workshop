@@ -1,4 +1,4 @@
 const Copyright = () =>
-  `© Copyright ${new Date().getFullYear()} NearForm Ltd. All Rights Reserved.`
+  `© Copyright ${new Date().getFullYear()} Nearform Ltd. All Rights Reserved.`
 
 export default Copyright
