@@ -1,1 +1,0 @@
-import{o,b as t,f as r}from"../modules/vue-Z6Fy-qlH.js";import{_ as s}from"../index-DdraXkq5.js";const l={},a={class:"slidev-layout default"};function n(e,c){return o(),t("div",a,[r(e.$slots,"default")])}const f=s(l,[["render",n],["__file","/home/runner/work/the-graphql-workshop/the-graphql-workshop/node_modules/@slidev/client/layouts/default.vue"]]);export{f as I};
