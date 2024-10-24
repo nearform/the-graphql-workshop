@@ -2,18 +2,22 @@
   "name": "the-graphql-workshop",
   "private": true,
   "type": "module",
-  "workspaces": ["src/*"],
+  "workspaces": [
+    "src/*"
+  ],
   "version": "1.0.0",
   "license": "CC-BY-SA-4.0",
   "author": "Sameer Srivastava <sameer.srivastava@nearform.com>",
-  "contributors": ["Simone Busoli <simone.busoli@nearform.com>"],
+  "contributors": [
+    "Simone Busoli <simone.busoli@nearform.com>"
+  ],
   "scripts": {
     "build": "slidev build",
     "start": "slidev --open",
     "export": "slidev export",
-    "db:up": "docker-compose up -d",
+    "db:up": "docker compose up -d",
     "db:migrate": "postgrator",
-    "db:down": "docker-compose down",
+    "db:down": "docker compose down",
     "lint": "eslint .",
     "test": "c8 tap --no-cov"
   },
@@ -27,20 +31,20 @@
     "tap": "^16.3.8"
   },
   "dependencies": {
-    "@fastify/postgres": "^5.2.2",
+    "@fastify/postgres": "^6.0.1",
     "@graphql-tools/schema": "^10.0.6",
-    "@mercuriusjs/federation": "^3.0.0",
-    "@mercuriusjs/gateway": "^3.0.1",
+    "@mercuriusjs/federation": "^4.0.0",
+    "@mercuriusjs/gateway": "^4.0.1",
     "@nearform/sql": "^1.10.5",
     "@slidev/cli": "^0.49.29",
     "@slidev/theme-default": "^0.25.0",
     "@vueuse/shared": "^11.0.3",
     "desm": "^1.3.1",
     "env-schema": "^6.0.0",
-    "fastify": "^4.28.1",
+    "fastify": "^5.0.0",
     "fluent-json-schema": "^5.0.0",
     "graphql": "^16.9.0",
-    "mercurius": "^14.1.0",
+    "mercurius": "^15.1.0",
     "pg": "^8.12.0",
     "pino-pretty": "^11.2.2",
     "postgrator-cli": "^8.1.0",
