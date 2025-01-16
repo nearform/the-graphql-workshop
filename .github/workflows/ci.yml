@@ -10,13 +10,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     services:
       postgres:
@@ -40,8 +34,25 @@ jobs:
       - run: npm run db:migrate
       - run: npm test
 
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Setup PostgreSQL for Linux/macOS/Windows
+        uses: ikalnytskyi/action-setup-postgres@v7
+        id: postgres
+        with:
+          port: 5433
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: pg_isready
+      - run: npm ci
+      - run: npm run db:migrate
+      - run: npm test
+
   automerge:
-    needs: build
+    needs: [build, build_windows]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
