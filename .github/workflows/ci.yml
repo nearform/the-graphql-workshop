@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build:
+  build_linux:
     runs-on: ubuntu-latest
 
     services:
@@ -51,7 +51,7 @@ jobs:
       - run: npm test
 
   automerge:
-    needs: [build, build_windows]
+    needs: [build_linux, build_windows]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
