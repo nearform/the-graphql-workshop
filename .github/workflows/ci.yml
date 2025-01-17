@@ -9,8 +9,9 @@ on:
       - master
 
 jobs:
-  build:
+  build_linux:
     runs-on: ubuntu-latest
+
     services:
       postgres:
         image: postgres:alpine
@@ -33,11 +34,27 @@ jobs:
       - run: npm run db:migrate
       - run: npm test
 
+  build_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Setup PostgreSQL for Linux/macOS/Windows
+        uses: ikalnytskyi/action-setup-postgres@v7
+        id: postgres
+        with:
+          port: 5433
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run db:migrate
+      - run: npm test
+
   automerge:
-    needs: build
+    needs: [build_linux, build_windows]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-      contents: write  
+      contents: write
     steps:
       - uses: fastify/github-action-merge-dependabot@v3
