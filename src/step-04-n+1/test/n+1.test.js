@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
-test('should return owner of the pet', async t => {
+test('should return owner of the pet', async () => {
   const server = buildServer()
 
   await server.ready()

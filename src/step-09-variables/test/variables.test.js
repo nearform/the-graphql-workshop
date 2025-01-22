@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
-test('should accept parameters as variables and return sum of two numbers', async t => {
+test('should accept parameters as variables and return sum of two numbers', async () => {
   const server = buildServer()
 
   await server.ready()

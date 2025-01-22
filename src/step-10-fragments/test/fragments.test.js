@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
-test('should use fragments and return users correctly', async t => {
+test('should use fragments and return users correctly', async () => {
   const server = buildServer()
 
   await server.ready()

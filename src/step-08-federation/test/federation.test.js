@@ -10,18 +10,8 @@ let postService
 let gateway
 
 test.before(async () => {
-  userService = await createService(
-    4001,
-    service1.schema,
-    service1.resolvers
-  )
-  
-  postService = await createService(
-    4002,
-    service2.schema,
-    service2.resolvers
-  )
-  
+  userService = await createService(4001, service1.schema, service1.resolvers)
+  postService = await createService(4002, service2.schema, service2.resolvers)
   gateway = buildGateway()
 })
 
@@ -31,7 +21,7 @@ test.after(async () => {
   await userService.close()
 })
 
-test('Runs in gateway mode with two services ', async t => {
+test('Runs in gateway mode with two services ', async () => {
   const query = `
   query {
     me {

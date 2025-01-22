@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
-test('should throw error with proper message and code if user not found', async t => {
+test('should throw error with proper message and code if user not found', async () => {
   const server = buildServer()
 
   await server.ready()
@@ -43,7 +43,7 @@ test('should throw error with proper message and code if user not found', async 
   ])
 })
 
-test('should return user', async t => {
+test('should return user', async () => {
   const server = buildServer()
 
   const query = `query {

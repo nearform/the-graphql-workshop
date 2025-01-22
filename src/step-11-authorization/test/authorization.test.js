@@ -34,94 +34,88 @@ test.after(async () => {
   await userService.close()
 })
 
-test(
-  'Runs in gateway mode with two services and no X-Role header',
-  async t => {
-    const res = await gateway.inject({
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      url: '/graphql',
-      payload: JSON.stringify({ query })
-    })
+test('Runs in gateway mode with two services and no X-Role header', async () => {
+  const res = await gateway.inject({
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    url: '/graphql',
+    payload: JSON.stringify({ query })
+  })
 
-    assert.deepEqual(JSON.parse(res.body), {
-      data: {
-        me: null
-      },
-      errors: [
-        {
-          message: 'Failed auth policy check on me',
-          locations: [
-            {
-              line: 3,
-              column: 3
-            }
-          ],
-          path: ['me']
-        }
-      ]
-    })
-  }
-)
+  assert.deepEqual(JSON.parse(res.body), {
+    data: {
+      me: null
+    },
+    errors: [
+      {
+        message: 'Failed auth policy check on me',
+        locations: [
+          {
+            line: 3,
+            column: 3
+          }
+        ],
+        path: ['me']
+      }
+    ]
+  })
+})
 
-test(
-  'Runs in gateway mode with two services with X-Role: VERIFIED',
-  async t => {
-    const res = await gateway.inject({
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'X-Role': 'VERIFIED'
-      },
-      url: '/graphql',
-      payload: JSON.stringify({ query })
-    })
+test('Runs in gateway mode with two services with X-Role: VERIFIED', async () => {
+  const res = await gateway.inject({
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'X-Role': 'VERIFIED'
+    },
+    url: '/graphql',
+    payload: JSON.stringify({ query })
+  })
 
-    assert.deepEqual(JSON.parse(res.body), {
-      data: {
-        me: {
-          name: 'John',
-          posts: [
-            {
-              title: 'Post 1',
-              author: null
-            },
-            {
-              title: 'Post 3',
-              author: null
-            }
-          ]
-        }
+  assert.deepEqual(JSON.parse(res.body), {
+    data: {
+      me: {
+        name: 'John',
+        posts: [
+          {
+            title: 'Post 1',
+            author: null
+          },
+          {
+            title: 'Post 3',
+            author: null
+          }
+        ]
+      }
+    },
+    errors: [
+      {
+        message: 'Failed auth policy check on author',
+        locations: [
+          {
+            line: 7,
+            column: 7
+          }
+        ],
+        path: ['me', 'posts', '0', 'author']
       },
-      errors: [
-        {
-          message: 'Failed auth policy check on author',
-          locations: [
-            {
-              line: 7,
-              column: 7
-            }
-          ],
-          path: ['me', 'posts', '0', 'author']
-        },
-        {
-          message: 'Failed auth policy check on author',
-          locations: [
-            {
-              line: 7,
-              column: 7
-            }
-          ],
-          path: ['me', 'posts', '1', 'author']
-        }
-      ]
-    })
-  }
-)
+      {
+        message: 'Failed auth policy check on author',
+        locations: [
+          {
+            line: 7,
+            column: 7
+          }
+        ],
+        path: ['me', 'posts', '1', 'author']
+      }
+    ]
+  })
+})
 
-test('Runs in gateway mode with two services with X-Role: ADMIN', async t => {
+test('Runs in gateway mode with two services with X-Role: ADMIN', async () => {
   const res = await gateway.inject({
     method: 'POST',
     headers: {
@@ -155,35 +149,32 @@ test('Runs in gateway mode with two services with X-Role: ADMIN', async t => {
   })
 })
 
-test(
-  'Runs in gateway mode with two services with X-Role: UNKNOWN',
-  async t => {
-    const res = await gateway.inject({
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'X-Role': 'UNKNOWN'
-      },
-      url: '/graphql',
-      payload: JSON.stringify({ query })
-    })
+test('Runs in gateway mode with two services with X-Role: UNKNOWN', async () => {
+  const res = await gateway.inject({
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'X-Role': 'UNKNOWN'
+    },
+    url: '/graphql',
+    payload: JSON.stringify({ query })
+  })
 
-    assert.deepEqual(JSON.parse(res.body), {
-      data: {
-        me: null
-      },
-      errors: [
-        {
-          message: 'Failed auth policy check on me',
-          locations: [
-            {
-              line: 3,
-              column: 3
-            }
-          ],
-          path: ['me']
-        }
-      ]
-    })
-  }
-)
+  assert.deepEqual(JSON.parse(res.body), {
+    data: {
+      me: null
+    },
+    errors: [
+      {
+        message: 'Failed auth policy check on me',
+        locations: [
+          {
+            line: 3,
+            column: 3
+          }
+        ],
+        path: ['me']
+      }
+    ]
+  })
+})

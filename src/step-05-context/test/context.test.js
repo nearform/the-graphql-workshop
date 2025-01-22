@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
-test('should retrieve correct value from context', async t => {
+test('should retrieve correct value from context', async () => {
   const server = buildServer()
 
   await server.ready()
