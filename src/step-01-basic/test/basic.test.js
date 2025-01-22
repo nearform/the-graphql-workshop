@@ -1,7 +1,8 @@
-import { test } from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
-test('should return sum of two numbers', async t => {
+test('should return sum of two numbers', async () => {
   const server = buildServer()
 
   await server.ready()
@@ -15,12 +16,12 @@ test('should return sum of two numbers', async t => {
     payload: JSON.stringify({ query })
   })
 
-  t.equal(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 
   const { data, errors } = await response.json()
 
-  t.equal(errors, undefined)
-  t.strictSame(data, {
+  assert.equal(errors, undefined)
+  assert.deepStrictEqual(data, {
     add: 8
   })
 })

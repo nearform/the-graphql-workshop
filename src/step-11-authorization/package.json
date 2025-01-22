@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "c8 tap --no-cov"
+    "test": "node --test"
   },
   "dependencies": {
     "mercurius-auth": "^6.0.0"

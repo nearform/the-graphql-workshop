@@ -1,7 +1,8 @@
-import { test } from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
-test('should throw error with proper message and code if user not found', async t => {
+test('should throw error with proper message and code if user not found', async () => {
   const server = buildServer()
 
   await server.ready()
@@ -19,12 +20,12 @@ test('should throw error with proper message and code if user not found', async 
     payload: JSON.stringify({ query })
   })
 
-  t.equal(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 
   const { errors } = await response.json()
 
-  t.equal(errors.length, 1)
-  t.strictSame(errors, [
+  assert.equal(errors.length, 1)
+  assert.deepStrictEqual(errors, [
     {
       message: 'Invalid User ID',
       locations: [
@@ -42,7 +43,7 @@ test('should throw error with proper message and code if user not found', async 
   ])
 })
 
-test('should return user', async t => {
+test('should return user', async () => {
   const server = buildServer()
 
   const query = `query {
@@ -58,12 +59,12 @@ test('should return user', async t => {
     payload: JSON.stringify({ query })
   })
 
-  t.equal(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 
   const { data, errors } = await response.json()
 
-  t.equal(errors, undefined)
-  t.strictSame(data, {
+  assert.equal(errors, undefined)
+  assert.deepStrictEqual(data, {
     findUser: {
       name: 'John'
     }
