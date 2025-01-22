@@ -1,4 +1,5 @@
-import t from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { createService } from '../services/service.js'
 import { service1 } from '../services/service1.js'
 import { service2 } from '../services/service2.js'
@@ -21,19 +22,19 @@ let userService
 let postService
 let gateway
 
-t.before(async () => {
+test.before(async () => {
   userService = await createService(4001, service1.schema, service1.resolvers)
   postService = await createService(4002, service2.schema, service2.resolvers)
   gateway = buildGateway()
 })
 
-t.teardown(async () => {
+test.after(async () => {
   await gateway.close()
   await postService.close()
   await userService.close()
 })
 
-t.test(
+test(
   'Runs in gateway mode with two services and no X-Role header',
   async t => {
     const res = await gateway.inject({
@@ -45,7 +46,7 @@ t.test(
       payload: JSON.stringify({ query })
     })
 
-    t.same(JSON.parse(res.body), {
+    assert.deepEqual(JSON.parse(res.body), {
       data: {
         me: null
       },
@@ -65,7 +66,7 @@ t.test(
   }
 )
 
-t.test(
+test(
   'Runs in gateway mode with two services with X-Role: VERIFIED',
   async t => {
     const res = await gateway.inject({
@@ -78,7 +79,7 @@ t.test(
       payload: JSON.stringify({ query })
     })
 
-    t.same(JSON.parse(res.body), {
+    assert.deepEqual(JSON.parse(res.body), {
       data: {
         me: {
           name: 'John',
@@ -120,7 +121,7 @@ t.test(
   }
 )
 
-t.test('Runs in gateway mode with two services with X-Role: ADMIN', async t => {
+test('Runs in gateway mode with two services with X-Role: ADMIN', async t => {
   const res = await gateway.inject({
     method: 'POST',
     headers: {
@@ -131,7 +132,7 @@ t.test('Runs in gateway mode with two services with X-Role: ADMIN', async t => {
     payload: JSON.stringify({ query })
   })
 
-  t.same(JSON.parse(res.body), {
+  assert.deepEqual(JSON.parse(res.body), {
     data: {
       me: {
         name: 'John',
@@ -154,7 +155,7 @@ t.test('Runs in gateway mode with two services with X-Role: ADMIN', async t => {
   })
 })
 
-t.test(
+test(
   'Runs in gateway mode with two services with X-Role: UNKNOWN',
   async t => {
     const res = await gateway.inject({
@@ -167,7 +168,7 @@ t.test(
       payload: JSON.stringify({ query })
     })
 
-    t.same(JSON.parse(res.body), {
+    assert.deepEqual(JSON.parse(res.body), {
       data: {
         me: null
       },

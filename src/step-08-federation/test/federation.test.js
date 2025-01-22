@@ -1,30 +1,37 @@
-import { test } from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import { createService } from '../services/service.js'
 import { service1 } from '../services/service1.js'
 import { service2 } from '../services/service2.js'
 import buildGateway from '../index.js'
 
-test('Runs in gateway mode with two services ', async t => {
-  const userService = await createService(
+let userService
+let postService
+let gateway
+
+test.before(async () => {
+  userService = await createService(
     4001,
     service1.schema,
     service1.resolvers
   )
-
-  const postService = await createService(
+  
+  postService = await createService(
     4002,
     service2.schema,
     service2.resolvers
   )
+  
+  gateway = buildGateway()
+})
 
-  const gateway = buildGateway()
+test.after(async () => {
+  await gateway.close()
+  await postService.close()
+  await userService.close()
+})
 
-  t.teardown(async () => {
-    await gateway.close()
-    await postService.close()
-    await userService.close()
-  })
-
+test('Runs in gateway mode with two services ', async t => {
   const query = `
   query {
     me {
@@ -66,7 +73,7 @@ test('Runs in gateway mode with two services ', async t => {
     })
   })
 
-  t.same(JSON.parse(res.body), {
+  assert.deepEqual(JSON.parse(res.body), {
     data: {
       me: {
         id: 'u1',

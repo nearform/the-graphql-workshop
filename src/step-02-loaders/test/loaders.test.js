@@ -1,4 +1,5 @@
-import { test } from 'tap'
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
 import buildServer from '../index.js'
 
 test('should return owner of the pet ', async t => {
@@ -22,12 +23,12 @@ test('should return owner of the pet ', async t => {
     payload: JSON.stringify({ query })
   })
 
-  t.equal(response.statusCode, 200)
+  assert.equal(response.statusCode, 200)
 
   const { data, errors } = await response.json()
 
-  t.equal(errors, undefined)
-  t.strictSame(data, {
+  assert.equal(errors, undefined)
+  assert.deepStrictEqual(data, {
     pets: [
       {
         name: 'Max',

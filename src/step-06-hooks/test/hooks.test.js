@@ -1,4 +1,4 @@
-import { test } from 'tap'
+import { test } from 'node:test'
 import { parse, GraphQLSchema } from 'graphql'
 import buildServer from '../index.js'
 
@@ -13,37 +13,38 @@ test('hooks', async t => {
   server.graphql.addHook(
     'preParsing',
     async function (schema, source, context) {
-      t.type(schema, GraphQLSchema)
-      t.equal(source, query)
-      t.type(context, 'object')
-      t.ok('preParsing called')
+      t.assert.ok(schema instanceof GraphQLSchema)
+      t.assert.equal(source, query)
+      t.assert.equal(typeof context, 'object')
+      t.assert.ok('preParsing called')
     }
   )
 
   server.graphql.addHook(
     'preValidation',
     async function (schema, document, context) {
-      t.type(schema, GraphQLSchema)
-      t.same(document, parse(query))
-      t.type(context, 'object')
-      t.ok('preValidation called')
+      t.assert.ok(schema instanceof GraphQLSchema)
+
+      t.assert.deepEqual(document, parse(query))
+      t.assert.equal(typeof context, 'object')
+      t.assert.ok('preValidation called')
     }
   )
 
   server.graphql.addHook(
     'preExecution',
     async function (schema, document, context) {
-      t.type(schema, GraphQLSchema)
-      t.same(document, parse(query))
-      t.type(context, 'object')
-      t.ok('preExecution called')
+      t.assert.ok(schema instanceof GraphQLSchema)
+      t.assert.deepEqual(document, parse(query))
+      t.assert.equal(typeof context, 'object')
+      t.assert.ok('preExecution called')
     }
   )
 
   server.graphql.addHook('onResolution', async function (execution, context) {
-    t.type(execution, 'object')
-    t.type(context, 'object')
-    t.ok('onResolution called')
+    t.assert.equal(typeof execution, 'object')
+    t.assert.equal(typeof context, 'object')
+    t.assert.ok('onResolution called')
   })
 
   const response = await server.inject({
@@ -55,8 +56,8 @@ test('hooks', async t => {
 
   const { data, errors } = await response.json()
 
-  t.equal(errors, undefined)
-  t.strictSame(data, {
+  t.assert.equal(errors, undefined)
+  t.assert.deepStrictEqual(data, {
     add: 8
   })
 })
@@ -70,8 +71,8 @@ test('GET /', async t => {
 
   const { data, errors } = await response.json()
 
-  t.equal(errors, undefined)
-  t.strictSame(data, {
+  t.assert.equal(errors, undefined)
+  t.assert.deepStrictEqual(data, {
     add: 4
   })
 })
