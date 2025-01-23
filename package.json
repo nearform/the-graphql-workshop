@@ -46,8 +46,5 @@
     "pino-pretty": "^13.0.0",
     "postgrator-cli": "^9.0.1",
     "slidev-theme-nearform": "^2.0.0"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.31.0"
   }
 }
