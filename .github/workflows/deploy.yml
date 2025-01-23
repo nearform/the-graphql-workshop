@@ -18,6 +18,7 @@ jobs:
           node-version-file: .nvmrc
       # We do install instead of ci due to a bug in npm that doesn't
       # properly handle optional dependencies in the lockfile when doing
+      # cross platform installs
       # https://github.com/nearform/the-graphql-workshop/pull/742
       - run: npm install
       - run: npm run build -- --base /the-graphql-workshop/
