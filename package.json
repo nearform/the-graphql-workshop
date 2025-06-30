@@ -22,7 +22,7 @@
     "test": "node --test --test-concurrency 1"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.30.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
     "prettier": "^3.6.2"
