@@ -25,7 +25,7 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
-    "prettier": "^3.5.3"
+    "prettier": "^3.6.2"
   },
   "dependencies": {
     "@fastify/postgres": "^6.0.2",
