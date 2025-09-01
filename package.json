@@ -32,7 +32,7 @@
     "@graphql-tools/schema": "^10.0.25",
     "@mercuriusjs/federation": "^5.0.0",
     "@mercuriusjs/gateway": "^5.0.0",
-    "@nearform/sql": "^1.10.5",
+    "@nearform/sql": "^1.10.7",
     "@slidev/cli": "^52.1.0",
     "@slidev/theme-default": "^0.25.0",
     "@vueuse/shared": "^13.8.0",
