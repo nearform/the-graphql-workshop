@@ -33,7 +33,7 @@
     "@mercuriusjs/federation": "^5.0.0",
     "@mercuriusjs/gateway": "^5.0.0",
     "@nearform/sql": "^1.10.7",
-    "@slidev/cli": "^52.9.1",
+    "@slidev/cli": "^52.10.1",
     "@slidev/theme-default": "^0.25.0",
     "@vueuse/shared": "^14.0.0",
     "desm": "^1.3.1",
