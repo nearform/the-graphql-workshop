@@ -35,7 +35,7 @@
     "@nearform/sql": "^1.10.7",
     "@slidev/cli": "^52.11.5",
     "@slidev/theme-default": "^0.25.0",
-    "@vueuse/shared": "^14.1.0",
+    "@vueuse/shared": "^14.2.0",
     "desm": "^1.3.1",
     "env-schema": "^7.0.0",
     "fastify": "^5.7.2",
