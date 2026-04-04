@@ -40,7 +40,7 @@
     "env-schema": "^7.0.0",
     "fastify": "^5.8.3",
     "fluent-json-schema": "^6.0.0",
-    "graphql": "^16.13.1",
+    "graphql": "^16.13.2",
     "mercurius": "^16.8.0",
     "pg": "^8.20.0",
     "pino-pretty": "^13.1.3",
