@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@fastify/postgres": "^6.0.2",
-    "@graphql-tools/schema": "^10.0.31",
+    "@graphql-tools/schema": "^10.0.32",
     "@mercuriusjs/federation": "^5.1.1",
     "@mercuriusjs/gateway": "^5.2.0",
     "@nearform/sql": "^1.10.7",
