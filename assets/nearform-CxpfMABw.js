@@ -1,0 +1,1 @@
+var e=`/the-graphql-workshop/images/nearform.svg`;export{e as t};
