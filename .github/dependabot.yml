@@ -4,6 +4,13 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # graphql 17 is blocked by mercurius, whose peer range is ^16.0.0.
+      # Remove this once a mercurius release ships graphql 17 support
+      # (mercurius-js/mercurius#1256). See issue #1019.
+      - dependency-name: graphql
+        update-types:
+          - version-update:semver-major
   - package-ecosystem: github-actions
     directory: /
     schedule:
