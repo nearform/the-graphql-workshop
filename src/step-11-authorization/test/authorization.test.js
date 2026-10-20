@@ -99,7 +99,7 @@ test('Runs in gateway mode with two services with X-Role: VERIFIED', async () =>
             column: 7
           }
         ],
-        path: ['me', 'posts', '0', 'author']
+        path: ['me', 'posts', 0, 'author']
       },
       {
         message: 'Failed auth policy check on author',
@@ -109,7 +109,7 @@ test('Runs in gateway mode with two services with X-Role: VERIFIED', async () =>
             column: 7
           }
         ],
-        path: ['me', 'posts', '1', 'author']
+        path: ['me', 'posts', 1, 'author']
       }
     ]
   })
