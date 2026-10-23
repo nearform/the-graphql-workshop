@@ -50,8 +50,18 @@ jobs:
       - run: npm run db:migrate
       - run: npm test
 
+  build_slides:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run build
+
   automerge:
-    needs: [build_linux, build_windows]
+    needs: [build_linux, build_windows, build_slides]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
